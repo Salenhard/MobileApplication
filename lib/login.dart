@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'extencions.dart';
+import 'extensions.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -18,35 +17,35 @@ class LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Form(
-        key: _formKey,
-        child: Column(children: [
-          Extensions.BuildExtendedInputFieldAsRow("Email", RegExp(r'.+')),
-          Extensions.BuildExtendedInputFieldAsRow("Password", RegExp(r'.+')),
-          // const SizedBox(height: 10.0),
+      key: _formKey,
+      child: Column(children: [
+        Extensions.packageWidgetsAsRow(
+            Extensions.buildExtendedInputFieldAsList("Email", RegExp(r'.+'))),
+        Extensions.packageWidgetsAsRow(Extensions.buildExtendedInputFieldAsList(
+            "Password", RegExp(r'.+'))),
+        // const SizedBox(height: 10.0),
 
-          ElevatedButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  setState(() {
-                      Navigator.pushNamed(context, '/profile');
-                  });
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  textStyle: const TextStyle(color: Colors.white)),
-              child: const Text('Вход')),
+        ElevatedButton(
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                setState(() {
+                  Navigator.pushNamed(context, '/profile');
+                });
+              }
+            },
+            style: Extensions.buttonStyle1,
+            child: const Text('Log In', style: TextStyle(color: Colors.white))),
 
-          const SizedBox(height: 50.0),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/registration');
-              },
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  textStyle: const TextStyle(color: Colors.white)),
-              child: const Text('Регистрация')),
-          const SizedBox(height: 50.0),
-        ]));
+        // const SizedBox(height: 50.0),
+        ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/registration');
+            },
+            style: Extensions.buttonStyle1,
+            child: const Text('Registration',
+                style: TextStyle(color: Colors.white))),
+        // const SizedBox(height: 50.0),
+      ]),
+    );
   }
 }
