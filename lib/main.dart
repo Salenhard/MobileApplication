@@ -1,4 +1,3 @@
-import 'dart:js_util';
 
 import 'package:flutter/material.dart';
 import 'package:untitled4/registration.dart';
@@ -7,11 +6,6 @@ import 'login.dart';
 import 'profile.dart';
 import 'data_from_iot.dart';
 import 'calcuator.dart';
-import 'dart:async';
-import 'package:flutter/widgets.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
-import 'user.dart';
 
 void main(){runApp(
     MaterialApp(
@@ -31,7 +25,7 @@ void main(){runApp(
         ),
         '/weather':(BuildContext context) => Scaffold(
             appBar: AppBar(title: const Text('Погода')),
-            body: Weather()
+            body: const Weather()
         ),
         '/calculator':(BuildContext context) => Scaffold(
             appBar: AppBar(title: const Text('Калькулятор')),
@@ -39,7 +33,7 @@ void main(){runApp(
         ),
         '/data_from_iot':(BuildContext context) => Scaffold(
             appBar: AppBar(title: const Text('Данные с IOT')),
-            body: DataFromIOT()
+            body: const DataFromIOT()
         ),
 
         },

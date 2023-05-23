@@ -47,24 +47,24 @@ class CalculatorState extends State<Calculator>{
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Container(padding: EdgeInsets.all(20),
+                    Container(padding: const EdgeInsets.all(20),
                       alignment: Alignment.centerRight,
                       child: const Menu(),
                     ),
                     Container(
-                      padding: EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(20),
                       alignment: Alignment.centerRight,
                       child: Text(
                         userInput,
-                        style: TextStyle(fontSize: 18, color: Colors.white),
+                        style: const TextStyle(fontSize: 18, color: Colors.white),
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(15),
                       alignment: Alignment.centerRight,
                       child: Text(
                         answer,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 30,
                             color: Colors.white,
                             fontWeight: FontWeight.bold),
@@ -78,7 +78,7 @@ class CalculatorState extends State<Calculator>{
             child: Container(
               child: GridView.builder(
                   itemCount: buttons.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 4),
                   itemBuilder: (BuildContext context, int index) {
                     // Clear Button
@@ -198,7 +198,7 @@ class MyButton extends StatelessWidget {
   final buttontapped;
 
   //Constructor
-  MyButton({this.color, this.textColor, required this.buttonText, this.buttontapped});
+  const MyButton({super.key, this.color, this.textColor, required this.buttonText, this.buttontapped});
 
   @override
   Widget build(BuildContext context) {

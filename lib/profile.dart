@@ -65,6 +65,7 @@ class ProfileState extends State<Profile> {
                             password = "";
                             return e.toString();
                           }
+                          return null;
                         },
                         initialValue: ""))),
           ]),
@@ -85,6 +86,7 @@ class ProfileState extends State<Profile> {
                             password = "";
                             return e.toString();
                           }
+                          return null;
                         },
                         initialValue: ""))),
           ]),
@@ -105,6 +107,7 @@ class ProfileState extends State<Profile> {
                             password = "";
                             return e.toString();
                           }
+                          return null;
                         },
                         initialValue: ""))),
           ]),

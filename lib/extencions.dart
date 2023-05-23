@@ -7,19 +7,20 @@ class Extensions {
       Container(
           margin: const EdgeInsets.all(10.0),
           child: Text(
-            inputFieldText + ":",
+            "$inputFieldText:",
             textAlign: TextAlign.center,
           )),
       Expanded(
           child: Container(
-            margin: EdgeInsets.all(10.0),
+            margin: const EdgeInsets.all(10.0),
               child: TextFormField(
                   validator: (value) {
-                    if (value!.isEmpty) return "Input " + inputFieldText;
+                    if (value!.isEmpty) return "Input $inputFieldText";
 
                     if (!Extensions.Validation(value, regularExpression)) {
-                      return "Invalid " + inputFieldText + " value";
+                      return "Invalid $inputFieldText value";
                     }
+                    return null;
                   },
                   initialValue: ""))),
     ]);

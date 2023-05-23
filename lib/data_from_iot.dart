@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'application.dart';
 
 class DataFromIOT extends StatefulWidget{
+  const DataFromIOT({super.key});
+
   @override
   createState() => DataFromIOTState();
 }
