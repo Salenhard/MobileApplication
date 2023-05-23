@@ -1,91 +1,53 @@
 import 'package:flutter/material.dart';
-class Reistration extends StatefulWidget {
-  const Reistration({super.key});
+
+import 'extencions.dart';
+
+class Registration extends StatefulWidget {
+  const Registration({super.key});
 
   @override
   State<StatefulWidget> createState() => RegistrationState();
 }
-class RegistrationState extends State<Reistration> {
+
+class RegistrationState extends State<Registration> {
   final _formKey = GlobalKey<FormState>();
   String mail = "";
   String password = "";
   String password2 = "";
+
   @override
   Widget build(BuildContext context) {
-    return Form(key: _formKey, child: Column(
-        children: [
-          Row(children: <Widget>[
-            Container(padding:const EdgeInsets.all(10.0),child: const Text('Mail:')),
-            Expanded(child: Container(padding:const EdgeInsets.all(10.0),child:
-            TextFormField(validator: (value){
-              if (value!.isEmpty) return 'Введите почту!';
+    return Form(
+        key: _formKey,
+        child: Column(children: [
+          // const SizedBox(height: 10.0),
 
-              try {
-                mail = value;
-              } catch(e) {
-                mail = "";
-                return e.toString();
-              }
-            }, initialValue: "")
-            )),
-          ]
-          ),
+          Extensions.BuildExtendedInputFieldAsRow(
+              "Email", RegExp(r'(.+)+(@)+(.{1})+(\.)+.+')),
 
-          const SizedBox(height: 10.0),
+          Extensions.BuildExtendedInputFieldAsRow("Password",
+              RegExp(r'^(?=.*?[A-ZА-Я])(?=.*?[a-zа-я])(?=.*?[0-9]).{8,}$')),
 
-          Row(children: <Widget>[
-            Container(padding:const EdgeInsets.all(10.0),child: const Text('Пароль:')),
-            Expanded(child: Container(padding:const EdgeInsets.all(10.0),child:
-            TextFormField(validator: (value){
-              if (value!.isEmpty) return 'Введите пароль!';
+          Extensions.BuildExtendedInputFieldAsRow("Confirm the password",
+              RegExp(r'.+')),
 
-              try {
-                password = value;
-              } catch(e) {
-                password = "";
-                return e.toString();
-              }
-            }, initialValue: "")
-            )),
-          ]
-          ),
-          Row(children: <Widget>[
-            Container(padding:const EdgeInsets.all(10.0),child: const Text('Пароль:')),
-            Expanded(child: Container(padding:const EdgeInsets.all(10.0),child:
-            TextFormField(validator: (value){
-              if (value!.isEmpty) return 'Введите пароль!';
+          Extensions.BuildExtendedInputFieldAsRow(
+              "Name", RegExp(r'^[a-zA-Zа-яА-Я]+$')),
 
-              try {
-                password = value;
-              } catch(e) {
-                password = "";
-                return e.toString();
-              }
-            }, initialValue: "")
-            )),
-          ]
-          ),
-          ElevatedButton(onPressed: (){
-            if(_formKey.currentState!.validate()) {
-              setState(() {
-                if (mail != "" && password != "" && password2 != "" && password == password2) {
-                  //register new user in app
+          Extensions.BuildExtendedInputFieldAsRow("Age", RegExp(r'^\d+$')),
+          // const SizedBox(height: 50.0),
+
+          ElevatedButton(
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  setState(() {});
                 }
-              });
-            }
-          }, style: ElevatedButton.styleFrom( backgroundColor: Colors.blue, textStyle: const TextStyle(color: Colors.white)), child: const Text('Вход')),
-
+              },
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  textStyle: const TextStyle(color: Colors.white)),
+              child: const Text('Регистрация')),
           const SizedBox(height: 50.0),
-          ElevatedButton(onPressed: (){
-            if(_formKey.currentState!.validate()) {
-              setState(() {
-              });
-            }
-          }, style: ElevatedButton.styleFrom( backgroundColor: Colors.blue, textStyle: const TextStyle(color: Colors.white)), child: const Text('Регистрация')),
-
-          const SizedBox(height: 50.0),
-
-        ]
-    ));
+        ]));
   }
 }
