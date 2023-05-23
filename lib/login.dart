@@ -18,34 +18,48 @@ class LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: Column(children: [
-        Extensions.packageWidgetsAsRow(
-            Extensions.buildExtendedInputFieldAsList("Email", RegExp(r'.+'))),
-        Extensions.packageWidgetsAsRow(Extensions.buildExtendedInputFieldAsList(
-            "Password", RegExp(r'.+'))),
-        // const SizedBox(height: 10.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+              padding: EdgeInsets.all(20.0),
+              child: const Text("Log In",
+                  style: TextStyle(
+                      color: Extensions.colorBright,
+                      fontWeight: FontWeight.bold),
+                  textScaleFactor: 3.0)),
 
-        ElevatedButton(
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                setState(() {
-                  Navigator.pushNamed(context, '/profile');
-                });
-              }
-            },
-            style: Extensions.buttonStyle1,
-            child: const Text('Log In', style: TextStyle(color: Colors.white))),
+          // TODO: Change containers to table
+          // Link: https://api.flutter.dev/flutter/widgets/Table-class.html
 
-        // const SizedBox(height: 50.0),
-        ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/registration');
-            },
-            style: Extensions.buttonStyle1,
-            child: const Text('Registration',
-                style: TextStyle(color: Colors.white))),
-        // const SizedBox(height: 50.0),
-      ]),
+          Extensions.getExtendedInputFieldAsContainer("Email", RegExp(r'.+')),
+          Extensions.getExtendedInputFieldAsContainer("Password", RegExp(r'.+')),
+          Container(
+            margin: EdgeInsets.all(20.0),
+            child: Column(children: [
+              ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      setState(() {
+                        Navigator.pushNamed(context, '/profile');
+                      });
+                    }
+                  },
+                  style: Extensions.buttonStyleUsual1,
+                  child: const Text('Log In',
+                      style: TextStyle(color: Extensions.colorBright))),
+              const SizedBox(height: 20.0),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/registration');
+                  },
+                  style: Extensions.buttonStyleUsual1,
+                  child: const Text('Registration',
+                      style: TextStyle(color: Extensions.colorBright)))
+            ]),
+          )
+        ],
+      ),
     );
   }
 }
