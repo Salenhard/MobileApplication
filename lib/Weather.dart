@@ -13,9 +13,7 @@ class WeatherState extends State<Weather>{
   build(BuildContext context){
     return Column(
       children: [
-        Container(
-          child: const Menu(),
-        )
+        Menu(),
       ],
     );
   }
