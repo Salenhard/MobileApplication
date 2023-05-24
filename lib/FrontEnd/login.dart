@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:math_expressions/math_expressions.dart';
 import '/Other/extensions.dart';
 
 class Login extends StatefulWidget {
@@ -18,8 +19,8 @@ class LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Wrap(
+        alignment: WrapAlignment.spaceAround,
         children: [
           Container(
               padding: const EdgeInsets.all(30.0),
@@ -28,20 +29,30 @@ class LoginState extends State<Login> {
                       color: Extensions.colorBright,
                       fontWeight: FontWeight.bold),
                   textScaleFactor: 3.0)),
-
-          Table(
-            border: TableBorder.all(),
-            children: [
-              TableRow(
-                children: [
-                  Expanded(child: Container(color: Colors.amber, child: const Text("TEST"))),
-                ],
-              )
-            ],
+          Container(
+            padding: EdgeInsets.symmetric(
+                vertical: 10.0,
+                horizontal: MediaQuery.of(context).size.width * 0.15),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Extensions.getTextFormFieldWithValidator(
+                  "email",
+                  RegExp(r'.+'),
+                  Extensions.getTextFormFieldDecoration1("email")),
+            ),
           ),
-
-          // Extensions.getExtendedInputFieldAsContainer("Email", RegExp(r'.+')),
-          // Extensions.getExtendedInputFieldAsContainer("Password", RegExp(r'.+')),
+          Container(
+            padding: EdgeInsets.symmetric(
+                vertical: 10.0,
+                horizontal: MediaQuery.of(context).size.width * 0.15),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Extensions.getTextFormFieldWithValidator(
+                  "password",
+                  RegExp(r'.+'),
+                  Extensions.getTextFormFieldDecoration1("password")),
+            ),
+          ),
           Container(
             margin: const EdgeInsets.all(20.0),
             child: Column(children: [
