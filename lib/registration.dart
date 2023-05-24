@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'extensions.dart';
+// import 'extensions.dart';
 
 class Registration extends StatefulWidget {
   const Registration({super.key});
