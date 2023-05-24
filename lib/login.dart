@@ -22,20 +22,44 @@ class LoginState extends State<Login> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-              padding: EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(30.0),
               child: const Text("Log In",
                   style: TextStyle(
                       color: Extensions.colorBright,
                       fontWeight: FontWeight.bold),
                   textScaleFactor: 3.0)),
 
-          // TODO: Change containers to table
-          // Link: https://api.flutter.dev/flutter/widgets/Table-class.html
+          Table(
+            columnWidths: const <int, TableColumnWidth>
+            {
+              0: IntrinsicColumnWidth()
+            },
+            border: TableBorder.all(),
+            children: [
+              TableRow(
+                children: [
+                  Expanded(
+                      child: Container(
+                          margin: const EdgeInsets.all(10.0),
+                          alignment: Alignment.centerRight,
+                          child: const Text("Email",
+                              style: Extensions.textStyleMainField1))),
+                  Container(
+                      margin: const EdgeInsets.all(10.0),
+                      alignment: Alignment.centerRight,
+                      child: Extensions.getTextFormFieldWithValidator(
+                          "email",
+                          RegExp(r'.+'),
+                          Extensions.getTextFormFieldDecoration1("email")))
+                ],
+              )
+            ],
+          ),
 
-          Extensions.getExtendedInputFieldAsContainer("Email", RegExp(r'.+')),
-          Extensions.getExtendedInputFieldAsContainer("Password", RegExp(r'.+')),
+          // Extensions.getExtendedInputFieldAsContainer("Email", RegExp(r'.+')),
+          // Extensions.getExtendedInputFieldAsContainer("Password", RegExp(r'.+')),
           Container(
-            margin: EdgeInsets.all(20.0),
+            margin: const EdgeInsets.all(20.0),
             child: Column(children: [
               ElevatedButton(
                   onPressed: () {
