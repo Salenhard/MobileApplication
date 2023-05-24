@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:untitled4/registration.dart';
+import '/FrontEnd/registration.dart';
 import 'weather.dart';
 import 'login.dart';
-import 'extensions.dart';
+import '/Other/extensions.dart';
 import 'profile.dart';
 import 'data_from_iot.dart';
 import 'calculator.dart';

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'application.dart';
 
-
 class Profile extends StatefulWidget {
   const Profile({super.key});
 
@@ -20,7 +19,8 @@ class ProfileState extends State<Profile> {
     return Form(
         key: _formKey,
         child: Column(children: [
-          Container(padding: const EdgeInsets.all(20),
+          Container(
+            padding: const EdgeInsets.all(20),
             alignment: Alignment.centerRight,
             child: const Menu(),
           ),
