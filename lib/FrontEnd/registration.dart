@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../BackEnd/database/client_model.dart';
+import '../BackEnd/database/database.dart';
 // import 'extensions.dart';
 
 class Registration extends StatefulWidget {
@@ -45,9 +48,10 @@ class RegistrationState extends State<Registration> {
           // const SizedBox(height: 50.0),
 
           ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (_formKey.currentState!.validate()) {
-                  setState(() {});
+                  // Client client = Client(name: name, mail: mail, password: password, age: age);
+                  // await DBProvider.db.newClient(client);
                 }
               },
               style: ElevatedButton.styleFrom(

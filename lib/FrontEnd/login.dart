@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:untitled4/BackEnd/database/database.dart';
+import '../BackEnd/database/client_model.dart';
 import '/Other/extensions.dart';
 
 class Login extends StatefulWidget {
@@ -13,8 +15,7 @@ class LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   String mail = "";
   String password = "";
-
-  @override
+  List<Client> list = DBProvider.db.getAllClients();
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
@@ -52,7 +53,22 @@ class LoginState extends State<Login> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       setState(() {
-                        Navigator.pushNamed(context, '/profile');
+                        for(int i = 0; i < list.length; i++)
+                          {
+                            if(mail == list[i].mail) {
+                              if (password == list[i].password) {
+                                Navigator.pushNamed(context, '/profile');
+                              }
+
+                              else{
+                                // wrong password
+                              }
+                            }
+                            else {
+                              // wrong mail
+                            }
+                          }
+
                       });
                     }
                   },

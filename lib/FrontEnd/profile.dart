@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../BackEnd/database/client_model.dart';
+import '../BackEnd/database/database.dart';
 import 'application.dart';
 
 class Profile extends StatefulWidget {
@@ -11,9 +13,13 @@ class Profile extends StatefulWidget {
 
 class ProfileState extends State<Profile> {
   final _formKey = GlobalKey<FormState>();
+
+
+  Client client = DBProvider.db.getClient(0);
+  String name = "";
+  int age = 0;
   String mail = "";
   String password = "";
-  String password2 = "";
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -115,7 +121,10 @@ class ProfileState extends State<Profile> {
           ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  setState(() {});
+                  setState(() {
+                    Client newClient = Client(id: client.id, name: name, mail: mail, password: password, age: age);
+                    DBProvider.db.updateClient(newClient);
+                  });
                 }
               },
               style: ElevatedButton.styleFrom(

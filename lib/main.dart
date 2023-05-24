@@ -1,4 +1,8 @@
+import 'dart:js_util';
+
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:untitled4/BackEnd/database/database.dart';
 import '/FrontEnd/registration.dart';
 import '/FrontEnd/login.dart';
 import '/Other/extensions.dart';
@@ -6,7 +10,6 @@ import '/FrontEnd/profile.dart';
 import '/FrontEnd/data_from_iot.dart';
 import '/FrontEnd/calculator.dart';
 import 'FrontEnd/weather_page.dart';
-
 void main() {
   runApp(MaterialApp(
     initialRoute: '/',
