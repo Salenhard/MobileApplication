@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:untitled4/registration.dart';
-import 'weather.dart';
-import 'login.dart';
-import 'extensions.dart';
-import 'profile.dart';
-import 'data_from_iot.dart';
-import 'calculator.dart';
+import '/FrontEnd/registration.dart';
+import '/FrontEnd/weather.dart';
+import '/FrontEnd/login.dart';
+import '/Other/extensions.dart';
+import '/FrontEnd/profile.dart';
+import '/FrontEnd/data_from_iot.dart';
+import '/FrontEnd/calculator.dart';
 
 void main() {
   runApp(MaterialApp(

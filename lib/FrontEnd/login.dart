@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'extensions.dart';
+import '/Other/extensions.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -30,9 +30,6 @@ class LoginState extends State<Login> {
                   textScaleFactor: 3.0)),
 
           Table(
-            columnWidths: const <int, TableColumnWidth>{
-              0: IntrinsicColumnWidth()
-            },
             border: TableBorder.all(),
             children: [
               TableRow(

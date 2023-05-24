@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '/FrontEnd/application.dart';
+import 'application.dart';
 
 class Weather extends StatefulWidget{
   const Weather({super.key});
