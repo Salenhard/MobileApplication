@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class Extensions {
-  
   // Color palette: https://colorhunt.co/palette/1b243051557e816797d6d5a8
   static const Color colorDark = Color.fromARGB(255, 27, 36, 48);
   static const Color colorSmooth1 = Color.fromARGB(255, 81, 85, 126);
@@ -26,34 +25,6 @@ class Extensions {
             borderRadius: BorderRadius.circular(25.0),
             borderSide: const BorderSide(color: colorSmooth1)),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(25.0)));
-  }
-
-  // TODO: Remove getExtendedInputFieldAsContainer method
-
-  static Container getExtendedInputFieldAsContainer(
-      String inputFieldText, RegExp validationExpression) {
-    return Container(
-      margin: const EdgeInsets.all(20.0),
-      child: Wrap(
-        direction: Axis.horizontal,
-        alignment: WrapAlignment.center,
-        children: [
-          Container(
-            alignment: Alignment.bottomRight,
-            child: Text(inputFieldText,
-                style: Extensions.textStyleMainField1),
-          ),
-          Expanded(
-              child: Container(
-            alignment: Alignment.centerLeft,
-            child: getTextFormFieldWithValidator(
-                inputFieldText,
-                validationExpression,
-                getTextFormFieldDecoration1(inputFieldText)),
-          ))
-        ],
-      ),
-    );
   }
 
   static Row packageWidgetsAsRow(List<Widget> widgets) {
