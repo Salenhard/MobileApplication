@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import '/FrontEnd/registration.dart';
-import '/FrontEnd/weather.dart';
 import '/FrontEnd/login.dart';
 import '/Other/extensions.dart';
 import '/FrontEnd/profile.dart';
 import '/FrontEnd/data_from_iot.dart';
 import '/FrontEnd/calculator.dart';
+import 'FrontEnd/weather_page.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -18,9 +18,11 @@ void main() {
           appBar: AppBar(title: const Text('Регистрация')),
           body: const Registration()),
       '/profile': (BuildContext context) => Scaffold(
-          appBar: AppBar(title: const Text('Профиль')), body: const Profile()),
+          appBar: AppBar(title: const Text('Профиль')),
+          body: const Profile()),
       '/weather': (BuildContext context) => Scaffold(
-          appBar: AppBar(title: const Text('Погода')), body: const Weather()),
+          appBar: AppBar(title: const Text('Погода')),
+          body: const MyHomePage()),
       '/calculator': (BuildContext context) => Scaffold(
           appBar: AppBar(title: const Text('Калькулятор')),
           body: const Calculator()),
