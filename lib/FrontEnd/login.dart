@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:math_expressions/math_expressions.dart';
 import '/Other/extensions.dart';
 
 class Login extends StatefulWidget {
@@ -19,12 +18,13 @@ class LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: Wrap(
+      child: Center(
+          child: Wrap(
         alignment: WrapAlignment.spaceAround,
         children: [
           Container(
               padding: const EdgeInsets.all(30.0),
-              child: const Text("Log In",
+              child: const Text("Sign In",
                   style: TextStyle(
                       color: Extensions.colorBright,
                       fontWeight: FontWeight.bold),
@@ -53,32 +53,59 @@ class LoginState extends State<Login> {
                   Extensions.getTextFormFieldDecoration1("password")),
             ),
           ),
+
+          // TODO: Space betwwen fields and buttons
+
+          const SizedBox(
+            height: 20,
+          ),
+
+          // TODO: Buttons in column
+
           Container(
-            margin: const EdgeInsets.all(20.0),
-            child: Column(children: [
-              ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      setState(() {
-                        Navigator.pushNamed(context, '/profile');
-                      });
-                    }
-                  },
-                  style: Extensions.buttonStyleUsual1,
-                  child: const Text('Log In',
-                      style: TextStyle(color: Extensions.colorBright))),
-              const SizedBox(height: 20.0),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/registration');
-                  },
-                  style: Extensions.buttonStyleUsual1,
-                  child: const Text('Registration',
-                      style: TextStyle(color: Extensions.colorBright)))
-            ]),
-          )
+            width: MediaQuery.of(context).size.width * 0.45,
+            margin: const EdgeInsets.symmetric(
+                vertical: 5,
+                horizontal: 20),
+            child: ElevatedButton(
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  setState(() {
+                    Navigator.pushNamed(context, '/profile');
+                  });
+                }
+              },
+              style: Extensions.buttonStyleUsual1,
+              child: const Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Text('Login',
+                    style: TextStyle(
+                        color: Extensions.colorBright,
+                        fontWeight: FontWeight.bold)),
+              ),
+            ),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.45,
+            margin: const EdgeInsets.symmetric(
+                vertical: 5,
+                horizontal: 20),
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/registration');
+              },
+              style: Extensions.buttonStyleUsual1,
+              child: const Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Text('Sign up',
+                    style: TextStyle(
+                        color: Extensions.colorBright,
+                        fontWeight: FontWeight.bold)),
+              ),
+            ),
+          ),
         ],
-      ),
+      )),
     );
   }
 }
