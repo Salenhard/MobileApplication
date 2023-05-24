@@ -30,27 +30,14 @@ class LoginState extends State<Login> {
                   textScaleFactor: 3.0)),
 
           Table(
-            columnWidths: const <int, TableColumnWidth>
-            {
+            columnWidths: const <int, TableColumnWidth>{
               0: IntrinsicColumnWidth()
             },
             border: TableBorder.all(),
             children: [
               TableRow(
                 children: [
-                  Expanded(
-                      child: Container(
-                          margin: const EdgeInsets.all(10.0),
-                          alignment: Alignment.centerRight,
-                          child: const Text("Email",
-                              style: Extensions.textStyleMainField1))),
-                  Container(
-                      margin: const EdgeInsets.all(10.0),
-                      alignment: Alignment.centerRight,
-                      child: Extensions.getTextFormFieldWithValidator(
-                          "email",
-                          RegExp(r'.+'),
-                          Extensions.getTextFormFieldDecoration1("email")))
+                  Expanded(child: Container(color: Colors.amber, child: const Text("TEST"))),
                 ],
               )
             ],
