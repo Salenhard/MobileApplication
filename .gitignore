@@ -43,5 +43,6 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# Extra folders
-*\Flutter\
+# Extra folders & files
+Flutter\
+*.swift
