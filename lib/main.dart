@@ -11,9 +11,9 @@ void main() {
   runApp(MaterialApp(
     initialRoute: '/',
     routes: {
-      '/': (BuildContext context) => Scaffold(
+      '/': (BuildContext context) => const Scaffold(
           backgroundColor: Extensions.colorDark,
-          body: const Login()),
+          body: Login()),
       '/registration': (BuildContext context) => Scaffold(
           appBar: AppBar(title: const Text('Регистрация')),
           body: const Registration()),
