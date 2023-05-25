@@ -31,6 +31,7 @@ void main() async {
           ),
       ),
       '/registration': (BuildContext context) => Scaffold(
+          backgroundColor: Extensions.colorDark,
           appBar: AppBar(title: const Text('Регистрация')),
           body: const Registration()),
       '/profile': (BuildContext context) => Scaffold(

@@ -18,7 +18,7 @@ class Client {
   int age;
 
   Client({
-    required this.id,
+    this.id = 0,
     required this.name,
     required this.mail,
     required this.password,

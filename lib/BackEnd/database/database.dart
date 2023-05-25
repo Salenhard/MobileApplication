@@ -51,6 +51,10 @@ class DatabaseHelper {
 
   Future<int> add(Client client) async {
     Database db = await instance.database;
+    var clients = await db.query("Clients", orderBy: "id");
+    List<Client> clientlist = clients.isNotEmpty ? clients.map((c) => Client.fromJson(c)).toList() : [];
+    int id = clientlist.length + 1;
+    client.id = id;
     return await db.insert("Clients", client.toJson());
   }
 

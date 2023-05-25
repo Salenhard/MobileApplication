@@ -17,6 +17,8 @@ class RegistrationState extends State<Registration> {
   String mail = "";
   String password = "";
   String password2 = "";
+  int age = 0;
+  String name = "";
 
   @override
   Widget build(BuildContext context) {
@@ -25,35 +27,106 @@ class RegistrationState extends State<Registration> {
         child: Column(children: [
           const SizedBox(height: 10.0),
 
-          Extensions.packageWidgetsAsRow(
-              [Extensions.getTextFormFieldWithValidator(
-                  "Email", RegExp(r'(.+)+(@)+(.{1})+(\.)+.+'), Extensions.getTextFormFieldDecoration1("Email"))]),
+        TextFormField(
+          autofillHints: Characters("Input Email here..."),
+          validator: (value) {
+            if (value!.isEmpty) {
+              return "Input Email";
+            }
+            if (!Extensions.validation(value, RegExp(r'(.+)+(@)+(.{1})+(\.)+.+'))) {
+              return "Invalid inputFieldText value";
+            }
+            else{
+              mail = value;
+            }
 
-          Extensions.packageWidgetsAsRow(
-              [Extensions.getTextFormFieldWithValidator(
-                  "Password",
-                  RegExp(
-                      r'^(?=.*?[A-ZА-Я])(?=.*?[a-zа-я])(?=.*?[0-9]).{8,}$'), Extensions.getTextFormFieldDecoration1("password"))]),
+          },
+          decoration: Extensions.getTextFormFieldDecoration1("Email"),
+          style: const TextStyle(color: Extensions.colorSmooth2),
+          textAlignVertical: TextAlignVertical.center,
+    ),
 
-          Extensions.packageWidgetsAsRow(
-              [Extensions.getTextFormFieldWithValidator(
-                  "Confirm the password", RegExp(r'.+'), Extensions.getTextFormFieldDecoration1("password"))]),
 
-          Extensions.packageWidgetsAsRow(
-              [Extensions.getTextFormFieldWithValidator(
-                  "Name", RegExp(r'^[a-zA-Zа-яА-Я]+$'), Extensions.getTextFormFieldDecoration1("name"))]),
+        TextFormField(
+          autofillHints: Characters("Input Password here..."),
+          validator: (value) {
+            if (value!.isEmpty) {
+              return "Input Password";
+            }
+            if (!Extensions.validation(value, RegExp(
+                r'^(?=.*?[A-ZА-Я])(?=.*?[a-zа-я])(?=.*?[0-9]).{8,}$'))) {
+              return "Invalid inputFieldText value";
+            }
+            else{
+              password = value;
+            }
+          },
+          decoration: Extensions.getTextFormFieldDecoration1("password"),
+          style: const TextStyle(color: Extensions.colorSmooth2),
+          textAlignVertical: TextAlignVertical.center,
+        ),
 
-          Extensions.packageWidgetsAsRow(
-              [Extensions.getTextFormFieldWithValidator(
-                  "Age", RegExp(r'^\d+$'), Extensions.getTextFormFieldDecoration1("Age"))]),
+        TextFormField(
+          autofillHints: Characters("Input Password here..."),
+          validator: (value) {
+            if (value!.isEmpty) {
+              return "Input Password";
+            }
+            if (!Extensions.validation(value, RegExp(r'.+'))) {
+              return "Invalid inputFieldText value";
+            }
+            else{
+              password2 = value;
+            }
+          },
+          decoration: Extensions.getTextFormFieldDecoration1("password"),
+          style: const TextStyle(color: Extensions.colorSmooth2),
+          textAlignVertical: TextAlignVertical.center,
+        ),
+
+        TextFormField(
+          autofillHints: Characters("Input Name here..."),
+          validator: (value) {
+            if (value!.isEmpty) {
+              return "Input Name";
+            }
+            if (!Extensions.validation(value, RegExp(r'^[a-zA-Zа-яА-Я]+$'))) {
+              return "Invalid inputFieldText value";
+            }else{
+              name = value;
+            }
+          },
+          decoration: Extensions.getTextFormFieldDecoration1("name"),
+          style: const TextStyle(color: Extensions.colorSmooth2),
+          textAlignVertical: TextAlignVertical.center,
+        ),
+
+        TextFormField(
+          autofillHints: Characters("Input Age here..."),
+          validator: (value) {
+            if (value!.isEmpty) {
+              return "Input Age";
+            }
+            if (!Extensions.validation(value, RegExp(r'^\d+$'))) {
+
+              return "Invalid inputFieldText value";
+            }
+            else{
+              age = int.parse(value);
+            }
+            },
+          decoration: Extensions.getTextFormFieldDecoration1("Age"),
+          style: const TextStyle(color: Extensions.colorSmooth2),
+          textAlignVertical: TextAlignVertical.center,
+        ),
           const SizedBox(height: 50.0),
 
           ElevatedButton(
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
-                  // Client client = Client(name: name, mail: mail, password: password, age: age);
-                  // await DatabaseHelper.instance.add(client);
-                  //
+                  Client client = Client(name: name, mail: mail, password: password, age: age);
+                  await DatabaseHelper.instance.add(client);
+                  Navigator.pop(context);
                   }
               },
               style: ElevatedButton.styleFrom(
