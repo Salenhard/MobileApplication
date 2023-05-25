@@ -2,9 +2,9 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'client_model.dart';
 
-class DatabaseHelper {
-  DatabaseHelper._privateConstructor();
-  static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
+class ClientsDatabaseController {
+  ClientsDatabaseController._privateConstructor();
+  static final ClientsDatabaseController instance = ClientsDatabaseController._privateConstructor();
   static Database? _database;
   Future<Database> get database async => _database ??= await _initdatabase();
 
@@ -31,35 +31,17 @@ class DatabaseHelper {
         ")");
   }
 
-  Future<List<Client>> getClients() async {
-    Database db = await instance.database;
-    var clients = await db.query("Clients", orderBy: "id");
-    List<Client> clientlist = clients.isNotEmpty
-        ? clients.map((c) => Client.fromJson(c)).toList()
-        : [];
-    return clientlist;
+  Future getClients() async {
+    
   }
 
-  Future<Client> searchByMail(String mail) async {
-    Database db = await instance.database;
-    var clients =
-        await db.query("Clients", where: "mail = ?", whereArgs: [mail]);
-    List<Client> clientlist = clients.isNotEmpty
-        ? clients.map((c) => Client.fromJson(c)).toList()
-        : [];
-    Client client = clientlist[0];
-    return client;
+  Future searchByMail(String mail) async {
+    
   }
 
   Future<int> add(Client client) async {
     Database db = await instance.database;
-    var clients = await db.query("Clients", orderBy: "id");
-    List<Client> clientlist = clients.isNotEmpty
-        ? clients.map((c) => Client.fromJson(c)).toList()
-        : [];
-    int id = clientlist.length + 1;
-    client.id = id;
-    return await db.insert("Clients", client.toJson());
+    return await db.insert(ClientFields.tableName, client.toMap());
   }
 
   Future<int> remove(int id) async {
@@ -67,9 +49,6 @@ class DatabaseHelper {
     return await db.delete("Clients", where: "id = ?", whereArgs: [id]);
   }
 
-  Future<int> update(Client client) async {
-    Database db = await instance.database;
-    return await db.update("Clients", client.toJson(),
-        where: 'id = ?', whereArgs: [client.id]);
+  Future update(Client client) async {
   }
 }

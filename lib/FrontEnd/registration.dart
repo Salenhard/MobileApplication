@@ -125,7 +125,7 @@ class RegistrationState extends State<Registration> {
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   Client client = Client(name: name, mail: mail, password: password, age: age);
-                  await DatabaseHelper.instance.add(client);
+                  await ClientsDatabaseController.instance.add(client);
                   Navigator.pop(context);
                   }
               },

@@ -5,6 +5,7 @@ class Extensions {
   static const Color colorDark = Color.fromARGB(255, 27, 36, 48);
   static const Color colorSmooth1 = Color.fromARGB(255, 81, 85, 126);
   static const Color colorSmooth2 = Color.fromARGB(255, 129, 103, 151);
+  static const Color colorSmooth3 = Color.fromARGB(255, 105, 105, 105);
   static const Color colorBright = Color.fromARGB(255, 214, 213, 168);
 
   static const ButtonStyle buttonStyleUsual1 = ButtonStyle(

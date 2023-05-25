@@ -1,26 +1,22 @@
 import 'package:flutter/material.dart';
 
 import '../BackEnd/database/client_model.dart';
-import '../BackEnd/database/database.dart';
 import 'application.dart';
 
 class Profile extends StatefulWidget {
-  Client client;
-  Profile(this.client,{super.key});
+  Profile({super.key});
   @override
-  State<StatefulWidget> createState() => ProfileState(client);
+  State<StatefulWidget> createState() => ProfileState();
 }
 
 class ProfileState extends State<Profile> {
   final _formKey = GlobalKey<FormState>();
-  Client client;
- // SqliteService service = SqliteService();
+  // SqliteService service = SqliteService();
   String name = "";
   int age = 0;
   String mail = "";
   String password = "";
 
-  ProfileState(this.client);
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -123,8 +119,8 @@ class ProfileState extends State<Profile> {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   setState(() {
-                   Client newClient = Client(id: client.id, name: name, mail: mail, password: password, age: age);
-                   //.updateClient(newClient);
+                    //  Client newClient = Client(id: client.id, name: name, mail: mail, password: password, age: age);
+                    //.updateClient(newClient);
                   });
                 }
               },
