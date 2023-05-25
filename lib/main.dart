@@ -9,20 +9,37 @@ import '/Other/extensions.dart';
 import '/FrontEnd/profile.dart';
 import '/FrontEnd/data_from_iot.dart';
 import '/FrontEnd/calculator.dart';
+import 'BackEnd/database/client_model.dart';
 import 'FrontEnd/weather_page.dart';
-void main() {
+void main() async {
+
+  SqliteService service = SqliteService();
+  service.createItem(Client(name: "name", mail: "mail", password: "password", age: 20));
   runApp(MaterialApp(
     initialRoute: '/',
     routes: {
-      '/': (BuildContext context) => const Scaffold(
+      '/': (BuildContext context) => Scaffold(
           backgroundColor: Extensions.colorDark,
-          body: Login()),
+          appBar: AppBar(title: const Text("Добро пожаловать!")),
+          body: FutureBuilder<List<Client>>(
+              future: service.getItems(),
+              builder: (BuildContext context, AsyncSnapshot<List<Client>> snapshot) {
+                if (snapshot.hasData) {
+                  List<Client>? list = snapshot.data;
+                  return Login(list!);
+                  }
+                else {
+                  return const Center(child: CircularProgressIndicator());
+                }
+              }
+          ),
+      ),
       '/registration': (BuildContext context) => Scaffold(
           appBar: AppBar(title: const Text('Регистрация')),
           body: const Registration()),
-      '/profile': (BuildContext context) => Scaffold(
-          appBar: AppBar(title: const Text('Профиль')),
-          body: const Profile()),
+      // '/profile': (BuildContext context) => Scaffold(
+      //     appBar: AppBar(title: const Text('Профиль')),
+      //     body: Profile(client)),
       '/weather': (BuildContext context) => Scaffold(
           appBar: AppBar(title: const Text('Погода')),
           body: const MyHomePage()),

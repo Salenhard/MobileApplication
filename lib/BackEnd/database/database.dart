@@ -1,69 +1,60 @@
 import 'dart:io';
+import 'dart:js_interop';
+import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'client_model.dart';
 
-class DBProvider {
-  DBProvider._();
-  static final DBProvider db = DBProvider._();
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+class SqliteService {
+  Future<Database> initializeDB() async {
+    String path = await getDatabasesPath();
 
-
-late Database _database;
-Future<Database> get database async {
-  if (_database != null) {
-    return _database;
+    return openDatabase(
+      join(path, 'database.db'),
+      onCreate: (database, version) async {
+        await database.execute(
+            "CREATE TABLE Clients(id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                "name TEXT,"
+                "mail TEXT,"
+                "password TEXT,"
+                "age INTEGER"
+                ")",
+        );
+      },
+      version: 1,
+    );
   }
 
-  // if _database is null we instantiate it
-  _database = await initDB();
-  return _database;
-}
-
-initDB() async {
-  Directory documentsDirectory = await getApplicationDocumentsDirectory();
-  String path = join(documentsDirectory.path, "TestDB.db");
-  return await openDatabase(path, version: 1,
-      onOpen: (db) {},
-      onCreate: (Database db, int version) async {
-        await db.execute("CREATE TABLE Client ("
-            "id INTEGER PRIMARY KEY,"
-            "name TEXT,"
-            "mail TEXT,"
-            "password TEXT"
-            ")");
-      });
-}
-  newClient(Client newClient) async {
-    final db = await database;
-    //get the biggest id in the table
-    var table = await db.rawQuery("SELECT MAX(id)+1 as id FROM Client");
-    Object? id = table.first["id"];
-    //insert to the table using the new id
-    var raw = await db.rawInsert(
-        "INSERT Into Client (id,name,mail,password,age)"
-            " VALUES (?,?,?,?,?)",
-        [id, newClient.name, newClient.mail, newClient.password, newClient.age]);
-    return raw;
+  Future<int> createItem(Client client) async {
+    int result = 0;
+    final Database db = await initializeDB();
+    final id = await db.insert(
+        'Clients', client.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+    result =1;
+    return result;
   }
+
 
   getClient(int id) async {
-    final db = await database;
+    final db = await initializeDB();
     var res = await  db.query("Client", where: "id = ?", whereArgs: [id]);
     return res.isNotEmpty ? Client.fromJson(res.first) : Null ;
   }
 
-  getAllClients() async {
-    final db = await database;
-    var res = await db.query("Client");
-    List list =
-    res.isNotEmpty ? res.map((c) => Client.fromJson(c)).toList() : [];
-    return list;
+  Future<List<Client>> getItems() async {
+    final db = await initializeDB();
+    final List<Map<String, Object?>> queryResult =
+    await db.query('Client', orderBy: "id");
+    return queryResult.map((e) => Client.fromJson(e)).toList();
   }
 
   updateClient(Client newClient) async {
-    final db = await database;
+    final db = await initializeDB();
     var res = await db.update("Client", newClient.toJson(),
         where: "id = ?", whereArgs: [newClient.id]);
     return res;

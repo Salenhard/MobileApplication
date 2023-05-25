@@ -4,18 +4,21 @@ import '../BackEnd/database/client_model.dart';
 import '/Other/extensions.dart';
 
 class Login extends StatefulWidget {
-  const Login({super.key});
+  final List<Client> list;
+  const Login(this.list, {super.key});
 
   @override
-  State<StatefulWidget> createState() => LoginState();
+  State<StatefulWidget> createState() => LoginState(list);
 }
 
 class LoginState extends State<Login> {
-  //RegExp exp = RegExp();
+  final List<Client> list;
   final _formKey = GlobalKey<FormState>();
   String mail = "";
   String password = "";
-  List<Client> list = DBProvider.db.getAllClients();
+
+  LoginState(this.list);
+  @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,

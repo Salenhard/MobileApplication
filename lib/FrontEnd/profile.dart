@@ -5,21 +5,22 @@ import '../BackEnd/database/database.dart';
 import 'application.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({super.key});
-
+  Client client;
+  Profile(this.client,{super.key});
   @override
-  State<StatefulWidget> createState() => ProfileState();
+  State<StatefulWidget> createState() => ProfileState(client);
 }
 
 class ProfileState extends State<Profile> {
   final _formKey = GlobalKey<FormState>();
-
-
-  Client client = DBProvider.db.getClient(0);
+  Client client;
+  SqliteService service = SqliteService();
   String name = "";
   int age = 0;
   String mail = "";
   String password = "";
+
+  ProfileState(this.client);
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -122,8 +123,8 @@ class ProfileState extends State<Profile> {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   setState(() {
-                    Client newClient = Client(id: client.id, name: name, mail: mail, password: password, age: age);
-                    DBProvider.db.updateClient(newClient);
+                   Client newClient = Client(id: client.id, name: name, mail: mail, password: password, age: age);
+                   service.updateClient(newClient);
                   });
                 }
               },
