@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/rendering.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -13,6 +14,7 @@ class DatabaseHelper {
 
   Future<Database> _initdatabase() async {
     Directory documentsDiretory = await getApplicationDocumentsDirectory();
+
     String path = join(documentsDiretory.path, "Clients.db");
     return await openDatabase(
       path,
@@ -32,18 +34,26 @@ class DatabaseHelper {
     );
   }
 
-  Future<List<Client>> getClients() async{
+  Future<List<Client>> getClients() async {
     Database db = await instance.database;
     var clients = await db.query("Clients", orderBy: "id");
-
     List<Client> clientlist = clients.isNotEmpty ? clients.map((c) => Client.fromJson(c)).toList() : [];
     return clientlist;
+  }
+
+  Future<Client> searchByMail(String mail) async {
+    Database db = await instance.database;
+    var clients = await db.query("Clients", where: "mail = ?", whereArgs: [mail]);
+    List<Client> clientlist = clients.isNotEmpty ? clients.map((c) => Client.fromJson(c)).toList() : [];
+    Client client = clientlist[0];
+    return client;
   }
 
   Future<int> add(Client client) async {
     Database db = await instance.database;
     return await db.insert("Clients", client.toJson());
   }
+
   Future<int> remove(int id) async {
     Database db = await instance.database;
     return await db.delete("Clients", where: "id = ?", whereArgs: [id]);

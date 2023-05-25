@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../BackEnd/database/client_model.dart';
 import '../BackEnd/database/database.dart';
-// import 'extensions.dart';
+import '../Other/extensions.dart';
+
 
 class Registration extends StatefulWidget {
   const Registration({super.key});
@@ -22,37 +23,38 @@ class RegistrationState extends State<Registration> {
     return Form(
         key: _formKey,
         child: Column(children: [
-          // const SizedBox(height: 10.0),
+          const SizedBox(height: 10.0),
 
-          // Extensions.packageWidgetsAsRow(
-          //     Extensions.buildExtendedInputFieldAsList(
-          //         "Email", RegExp(r'(.+)+(@)+(.{1})+(\.)+.+'))),
+          Extensions.packageWidgetsAsRow(
+              [Extensions.getTextFormFieldWithValidator(
+                  "Email", RegExp(r'(.+)+(@)+(.{1})+(\.)+.+'), Extensions.getTextFormFieldDecoration1("Email"))]),
 
-          // Extensions.packageWidgetsAsRow(
-          //     Extensions.buildExtendedInputFieldAsList(
-          //         "Password",
-          //         RegExp(
-          //             r'^(?=.*?[A-ZА-Я])(?=.*?[a-zа-я])(?=.*?[0-9]).{8,}$'))),
+          Extensions.packageWidgetsAsRow(
+              [Extensions.getTextFormFieldWithValidator(
+                  "Password",
+                  RegExp(
+                      r'^(?=.*?[A-ZА-Я])(?=.*?[a-zа-я])(?=.*?[0-9]).{8,}$'), Extensions.getTextFormFieldDecoration1("password"))]),
 
-          // Extensions.packageWidgetsAsRow(
-          //     Extensions.buildExtendedInputFieldAsList(
-          //         "Confirm the password", RegExp(r'.+'))),
+          Extensions.packageWidgetsAsRow(
+              [Extensions.getTextFormFieldWithValidator(
+                  "Confirm the password", RegExp(r'.+'), Extensions.getTextFormFieldDecoration1("password"))]),
 
-          // Extensions.packageWidgetsAsRow(
-          //     Extensions.buildExtendedInputFieldAsList(
-          //         "Name", RegExp(r'^[a-zA-Zа-яА-Я]+$'))),
+          Extensions.packageWidgetsAsRow(
+              [Extensions.getTextFormFieldWithValidator(
+                  "Name", RegExp(r'^[a-zA-Zа-яА-Я]+$'), Extensions.getTextFormFieldDecoration1("name"))]),
 
-          // Extensions.packageWidgetsAsRow(
-          //     Extensions.buildExtendedInputFieldAsList(
-          //         "Age", RegExp(r'^\d+$'))),
-          // const SizedBox(height: 50.0),
+          Extensions.packageWidgetsAsRow(
+              [Extensions.getTextFormFieldWithValidator(
+                  "Age", RegExp(r'^\d+$'), Extensions.getTextFormFieldDecoration1("Age"))]),
+          const SizedBox(height: 50.0),
 
           ElevatedButton(
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   // Client client = Client(name: name, mail: mail, password: password, age: age);
-                  // await DBProvider.db.newClient(client);
-                }
+                  // await DatabaseHelper.instance.add(client);
+                  //
+                  }
               },
               style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,

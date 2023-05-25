@@ -72,18 +72,12 @@ class LoginState extends State<Login> {
               ElevatedButton(
                   onPressed: () {
                     for (int i = 0; i < list.length; i++) {
-                      if (mail == list[i].mail) {
-                        if (password == list[i].password) {
+                      if (mail == list[i].mail && password == list[i].password) {
                           Navigator.pushNamed(context, '/profile');
-                        } else {
-                          // wrong password
+                      }
+                      else {
 
-                          return;
-                        }
-                      } else {
-                        // wrong mail
-
-                        return;
+                        // wrong
                       }
                     }
                     Navigator.pushNamed(context, '/profile');
