@@ -1,20 +1,15 @@
-import 'dart:js_util';
-
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:untitled4/BackEnd/database/database.dart';
 import '/FrontEnd/registration.dart';
 import '/FrontEnd/login.dart';
 import '/Other/extensions.dart';
-import '/FrontEnd/profile.dart';
 import '/FrontEnd/data_from_iot.dart';
 import '/FrontEnd/calculator.dart';
 import 'BackEnd/database/client_model.dart';
 import 'FrontEnd/weather_page.dart';
 void main() async {
-
-  SqliteService service = SqliteService();
-  service.createItem(Client(name: "name", mail: "mail", password: "password", age: 20));
+  WidgetsFlutterBinding.ensureInitialized();
+  await DatabaseHelper.instance.add(Client(id: 1, name: "lol", mail: "ds", password: "dsa", age: 20));
   runApp(MaterialApp(
     initialRoute: '/',
     routes: {
@@ -22,7 +17,7 @@ void main() async {
           backgroundColor: Extensions.colorDark,
           appBar: AppBar(title: const Text("Добро пожаловать!")),
           body: FutureBuilder<List<Client>>(
-              future: service.getItems(),
+              future: DatabaseHelper.instance.getClients(),
               builder: (BuildContext context, AsyncSnapshot<List<Client>> snapshot) {
                 if (snapshot.hasData) {
                   List<Client>? list = snapshot.data;
