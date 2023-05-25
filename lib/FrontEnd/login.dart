@@ -19,27 +19,29 @@ class LoginState extends State<Login> {
     return Form(
       key: _formKey,
       child: Center(
-          child: Wrap(
-        alignment: WrapAlignment.spaceAround,
+          child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-              padding: const EdgeInsets.all(30.0),
-              child: const Text("Sign In",
-                  style: TextStyle(
-                      color: Extensions.colorBright,
-                      fontWeight: FontWeight.bold),
-                  textScaleFactor: 3.0)),
+              padding: const EdgeInsets.all(50.0),
+              child: const FittedBox(
+                child: Text("Sign In",
+                    style: TextStyle(
+                        color: Extensions.colorBright,
+                        fontWeight: FontWeight.bold),
+                    textScaleFactor: 3.0),
+              )),
           Container(
             padding: EdgeInsets.symmetric(
                 vertical: 10.0,
                 horizontal: MediaQuery.of(context).size.width * 0.15),
             child: Align(
-              alignment: Alignment.centerLeft,
-              child: Extensions.getTextFormFieldWithValidator(
-                  "email",
-                  RegExp(r'.+'),
-                  Extensions.getTextFormFieldDecoration1("email")),
-            ),
+                alignment: Alignment.centerLeft,
+                child: TextField(
+                  style: const TextStyle(color: Extensions.colorSmooth2),
+                  textAlignVertical: TextAlignVertical.center,
+                  decoration: Extensions.getTextFormFieldDecoration1("email"),
+                )),
           ),
           Container(
             padding: EdgeInsets.symmetric(
@@ -47,26 +49,21 @@ class LoginState extends State<Login> {
                 horizontal: MediaQuery.of(context).size.width * 0.15),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Extensions.getTextFormFieldWithValidator(
-                  "password",
-                  RegExp(r'.+'),
-                  Extensions.getTextFormFieldDecoration1("password")),
+              child: TextField(
+                autocorrect: false,
+                obscureText: true,
+                style: const TextStyle(color: Extensions.colorSmooth2),
+                textAlignVertical: TextAlignVertical.center,
+                decoration: Extensions.getTextFormFieldDecoration1("password"),
+              ),
             ),
           ),
-
-          // TODO: Space betwwen fields and buttons
-
           const SizedBox(
             height: 20,
           ),
-
-          // TODO: Buttons in column
-
           Container(
             width: MediaQuery.of(context).size.width * 0.45,
-            margin: const EdgeInsets.symmetric(
-                vertical: 5,
-                horizontal: 20),
+            margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
             child: ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
@@ -87,9 +84,7 @@ class LoginState extends State<Login> {
           ),
           Container(
             width: MediaQuery.of(context).size.width * 0.45,
-            margin: const EdgeInsets.symmetric(
-                vertical: 5,
-                horizontal: 20),
+            margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
             child: ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/registration');
