@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:untitled4/BackEnd/database/database.dart';
+import '../BackEnd/database/client_model.dart';
 import '/Other/extensions.dart';
 
 class Login extends StatefulWidget {
-  const Login({super.key});
+  final List<Client> list;
+  const Login(this.list, {super.key});
 
   @override
-  State<StatefulWidget> createState() => LoginState();
+  State<StatefulWidget> createState() => LoginState(list);
 }
 
 class LoginState extends State<Login> {
-  //RegExp exp = RegExp();
+  final List<Client> list;
   final _formKey = GlobalKey<FormState>();
   String mail = "";
   String password = "";
 
+  LoginState(this.list);
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -64,41 +68,39 @@ class LoginState extends State<Login> {
           Container(
             width: MediaQuery.of(context).size.width * 0.45,
             margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-            child: ElevatedButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  setState(() {
+            child: Column(children: [
+              ElevatedButton(
+                  onPressed: () {
+                    for (int i = 0; i < list.length; i++) {
+                      if (mail == list[i].mail) {
+                        if (password == list[i].password) {
+                          Navigator.pushNamed(context, '/profile');
+                        } else {
+                          // wrong password
+
+                          return;
+                        }
+                      } else {
+                        // wrong mail
+
+                        return;
+                      }
+                    }
                     Navigator.pushNamed(context, '/profile');
-                  });
-                }
-              },
-              style: Extensions.buttonStyleUsual1,
-              child: const Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Text('Login',
-                    style: TextStyle(
-                        color: Extensions.colorBright,
-                        fontWeight: FontWeight.bold)),
-              ),
-            ),
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.45,
-            margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/registration');
-              },
-              style: Extensions.buttonStyleUsual1,
-              child: const Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Text('Sign up',
-                    style: TextStyle(
-                        color: Extensions.colorBright,
-                        fontWeight: FontWeight.bold)),
-              ),
-            ),
-          ),
+                  },
+                  style: Extensions.buttonStyleUsual1,
+                  child: const Text('Log In',
+                      style: TextStyle(color: Extensions.colorBright))),
+              const SizedBox(height: 20.0),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/registration');
+                  },
+                  style: Extensions.buttonStyleUsual1,
+                  child: const Text('Registration',
+                      style: TextStyle(color: Extensions.colorBright)))
+            ]),
+          )
         ],
       )),
     );
