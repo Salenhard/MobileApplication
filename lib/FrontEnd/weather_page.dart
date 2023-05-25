@@ -4,14 +4,14 @@ import '../BackEnd/Weather/weather_event.dart';
 import '../BackEnd/Weather/weather_state.dart';
 import 'weather_main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+class WeatherPage extends StatefulWidget {
+  const WeatherPage({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _MyHomePageState();
+  State<StatefulWidget> createState() => WeatherPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class WeatherPageState extends State<WeatherPage> {
 @override
 Widget build(BuildContext context) {
   return BlocProvider(

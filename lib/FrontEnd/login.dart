@@ -26,42 +26,55 @@ class LoginState extends State<Login> {
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-              padding: const EdgeInsets.all(50.0),
-              child: const FittedBox(
-                child: Text("Sign In",
-                    style: TextStyle(
-                        color: Extensions.colorBright,
-                        fontWeight: FontWeight.bold),
-                    textScaleFactor: 3.0),
-              )),
-          Container(
-            padding: EdgeInsets.symmetric(
-                vertical: 10.0,
-                horizontal: MediaQuery.of(context).size.width * 0.15),
-            child: Align(
-                alignment: Alignment.centerLeft,
-                child: TextField(
-                  style: const TextStyle(color: Extensions.colorSmooth2),
-                  textAlignVertical: TextAlignVertical.center,
-                  decoration: Extensions.getTextFormFieldDecoration1("email"),
-                )),
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(
-                vertical: 10.0,
-                horizontal: MediaQuery.of(context).size.width * 0.15),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: TextField(
-                autocorrect: false,
-                obscureText: true,
-                style: const TextStyle(color: Extensions.colorSmooth2),
-                textAlignVertical: TextAlignVertical.center,
-                decoration: Extensions.getTextFormFieldDecoration1("password"),
-              ),
-            ),
-          ),
+          Row(children: <Widget>[
+          Expanded(
+          child: Container(
+              padding: const EdgeInsets.all(10.0),
+          child:
+          TextFormField(
+            autofillHints: Characters("Input Email here..."),
+            validator: (value) {
+              if (value!.isEmpty) {
+                return "Input Email";
+              }
+              if (!Extensions.validation(
+                  value, RegExp(r'(.+)+(@)+(.{1})+(\.)+.+'))) {
+                return "Invalid inputFieldText value";
+              } else {
+                mail = value;
+              }
+            },
+            decoration: Extensions.getTextFormFieldDecoration1("Email"),
+            style: const TextStyle(color: Extensions.colorSmooth2),
+            textAlignVertical: TextAlignVertical.center,
+          ))),
+          ]),
+
+          Row(children: <Widget>[
+          Expanded(
+          child: Container(
+              padding: const EdgeInsets.all(10.0),
+          child:
+          TextFormField(
+            autofillHints: Characters("Input Password here..."),
+            validator: (value) {
+              if (value!.isEmpty) {
+                return "Input Password";
+              }
+              if (!Extensions.validation(
+                  value,
+                  RegExp(
+                      r'^(?=.*?[A-ZА-Я])(?=.*?[a-zа-я])(?=.*?[0-9]).{8,}$'))) {
+                return "Invalid inputFieldText value";
+              } else {
+                password = value;
+              }
+            },
+            decoration: Extensions.getTextFormFieldDecoration1("password"),
+            style: const TextStyle(color: Extensions.colorSmooth2),
+            textAlignVertical: TextAlignVertical.center,
+          ))),
+          ]),
           const SizedBox(
             height: 20,
           ),
@@ -71,21 +84,18 @@ class LoginState extends State<Login> {
             child: Column(children: [
               ElevatedButton(
                   onPressed: () {
-                    for (int i = 0; i < list.length; i++) {
-                      if (mail == list[i].mail && password == list[i].password) {
+                    if (_formKey.currentState!.validate()) {
+                      for (int i = 0; i < list.length; i++) {
+                        if (mail == list[i].mail &&
+                            password == list[i].password) {
                           Navigator.pushNamed(context, '/profile');
-                      }
-                      else {
-
-                        // wrong
+                        }
                       }
                     }
-                    Navigator.pushNamed(context, '/profile');
                   },
                   style: Extensions.buttonStyleUsual1,
                   child: const Text('Log In',
                       style: TextStyle(color: Extensions.colorBright))),
-              const SizedBox(height: 20.0),
               ElevatedButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/registration');

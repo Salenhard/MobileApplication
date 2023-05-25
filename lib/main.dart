@@ -8,6 +8,7 @@ import '/FrontEnd/data_from_iot.dart';
 import '/FrontEnd/calculator.dart';
 import 'BackEnd/database/client_model.dart';
 import 'FrontEnd/weather_page.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   int id = 0;
@@ -15,50 +16,63 @@ void main() async {
     initialRoute: '/',
     routes: {
       '/': (BuildContext context) => Scaffold(
-          backgroundColor: Extensions.colorDark,
-          appBar: AppBar(title: const Text("Добро пожаловать!")),
-          body: FutureBuilder<List<Client>>(
-              future: DatabaseHelper.instance.getClients(),
-              builder: (BuildContext context, AsyncSnapshot<List<Client>> snapshot) {
-                if (snapshot.hasData) {
-                  List<Client>? list = snapshot.data;
-                  return Login(list!);
+            backgroundColor: Extensions.colorDark,
+            appBar: AppBar(
+              title: const Text("Welcome!",
+                  style: TextStyle(color: Extensions.colorBright)),
+              backgroundColor: Extensions.colorSmooth1
+            ),
+            body: FutureBuilder<List<Client>>(
+                future: DatabaseHelper.instance.getClients(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<Client>> snapshot) {
+                  if (snapshot.hasData) {
+                    List<Client>? list = snapshot.data;
+                    return Login(list!);
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
                   }
-                else {
-                  return const Center(child: CircularProgressIndicator());
-                }
-              }
+                }),
           ),
-      ),
       '/registration': (BuildContext context) => Scaffold(
           backgroundColor: Extensions.colorDark,
-          appBar: AppBar(title: const Text('Регистрация')),
+          appBar: AppBar(title: const Text('Registration', style: TextStyle(color: Extensions.colorBright)),
+  backgroundColor: Extensions.colorSmooth1),
           body: const Registration()),
       '/profile': (BuildContext context) => Scaffold(
-          appBar: AppBar(title: const Text('Профиль')),
-          body: FutureBuilder<List<Client>>(
-              future: DatabaseHelper.instance.getClients(),
-              builder: (BuildContext context, AsyncSnapshot<List<Client>> snapshot) {
-                if (snapshot.hasData) {
-                  List<Client>? list = snapshot.data;
-                  Client client = list![id];
-                  return Profile(client);
-                }
-                else {
-                  return const Center(child: CircularProgressIndicator());
-                }
-              }
+            backgroundColor: Extensions.colorDark,
+            appBar: AppBar(title: const Text('Profile', style: TextStyle(color: Extensions.colorBright)),
+  backgroundColor: Extensions.colorSmooth1),
+            body: FutureBuilder<List<Client>>(
+                future: DatabaseHelper.instance.getClients(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<Client>> snapshot) {
+                  if (snapshot.hasData) {
+                    List<Client>? list = snapshot.data;
+                    Client client = list![id];
+                    return Profile(client);
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                }),
           ),
-      ),
       '/weather': (BuildContext context) => Scaffold(
-          appBar: AppBar(title: const Text('Погода')),
-          body: const MyHomePage()),
+          backgroundColor: Extensions.colorDark,
+          appBar: AppBar(title: const Text('Weather', style: TextStyle(color: Extensions.colorBright)),
+              backgroundColor: Extensions.colorSmooth1),
+          body: const WeatherPage()),
       '/calculator': (BuildContext context) => Scaffold(
-          appBar: AppBar(title: const Text('Калькулятор')),
+          backgroundColor: Extensions.colorDark,
+          appBar: AppBar(title: const Text('Calculator', style: TextStyle(color: Extensions.colorBright)),
+              backgroundColor: Extensions.colorSmooth1),
           body: const Calculator()),
       '/data_from_iot': (BuildContext context) => Scaffold(
-          appBar: AppBar(title: const Text('Данные с IOT')),
-          body: const DataFromIOT()),
+          backgroundColor: Extensions.colorDark,
+          appBar: AppBar(title: const Text('Data from IOT', style: TextStyle(color: Extensions.colorBright)),
+              backgroundColor: Extensions.colorSmooth1),
+          body: DataFromIOT(
+            url: '',
+          )),
     },
   ));
 }

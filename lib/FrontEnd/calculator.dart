@@ -48,12 +48,9 @@ class CalculatorState extends State<Calculator> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Container(
-                    padding: const EdgeInsets.all(20),
-                    alignment: Alignment.centerRight,
                     child: const Menu(),
                   ),
                   Container(
-                    padding: const EdgeInsets.all(20),
                     alignment: Alignment.centerRight,
                     child: Text(
                       userInput,
@@ -61,7 +58,7 @@ class CalculatorState extends State<Calculator> {
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.all(15),
+                    padding: const EdgeInsets.all(10),
                     alignment: Alignment.centerRight,
                     child: Text(
                       answer,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../BackEnd/Weather/weather.dart';
 import 'application.dart';
 import 'weather.dart';
