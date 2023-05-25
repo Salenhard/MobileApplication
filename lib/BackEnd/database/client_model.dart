@@ -11,7 +11,7 @@ String clientToJson(Client data) {
 }
 
 class Client {
-  int id;
+  int? id;
   String name;
   String mail;
   String password;
@@ -40,4 +40,13 @@ class Client {
     "password": password,
     "age": age,
   };
+}
+
+  class ClientFields{
+  static const String tableName = "Clients";
+  static const String id = "_id";
+  static const String name = "name";
+  static const String mail = "mail";
+  static const String password = "password";
+  static const String age = "age";
 }

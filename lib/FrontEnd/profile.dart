@@ -14,7 +14,7 @@ class Profile extends StatefulWidget {
 class ProfileState extends State<Profile> {
   final _formKey = GlobalKey<FormState>();
   Client client;
-  SqliteService service = SqliteService();
+ // SqliteService service = SqliteService();
   String name = "";
   int age = 0;
   String mail = "";
@@ -124,7 +124,7 @@ class ProfileState extends State<Profile> {
                 if (_formKey.currentState!.validate()) {
                   setState(() {
                    Client newClient = Client(id: client.id, name: name, mail: mail, password: password, age: age);
-                   service.updateClient(newClient);
+                   //.updateClient(newClient);
                   });
                 }
               },

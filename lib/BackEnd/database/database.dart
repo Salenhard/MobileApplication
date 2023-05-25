@@ -1,57 +1,69 @@
+import 'dart:io';
+import 'package:flutter/rendering.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'client_model.dart';
 
-class SqliteService {
-  Future<Database> initializeDB() async {
-    String path = await getDatabasesPath();
+class DatabaseHelper {
+  DatabaseHelper._privateConstructor();
+  static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
+  static Database? _database;
+  Future<Database> get database async => _database ??= await _initdatabase();
 
-    return openDatabase(
-      join(path, 'database.db'),
-      onCreate: (database, version) async {
-        await database.execute(
-            "CREATE TABLE Clients(id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                "name TEXT,"
-                "mail TEXT,"
-                "password TEXT,"
-                "age INTEGER"
-                ")",
-        );
-      },
+  Future<Database> _initdatabase() async {
+    Directory documentsDiretory = await getApplicationDocumentsDirectory();
+
+    String path = join(documentsDiretory.path, "Clients.db");
+    return await openDatabase(
+      path,
       version: 1,
+      onCreate: _onCreate,
+      );
+  }
+  Future _onCreate(Database db, int version) async {
+    await db.execute(
+        "CREATE TABLE Clients("
+            "id INTEGER PRIMARY KEY, "
+            "name TEXT, "
+            "mail TEXT, "
+            "password TEXT, "
+            "age INTEGER"
+            ")"
     );
   }
 
-  Future<int> createItem(Client client) async {
-    int result = 0;
-    final Database db = await initializeDB();
-    final id = await db.insert(
-        'Clients', client.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
-    result =1;
-    return result;
+  Future<List<Client>> getClients() async {
+    Database db = await instance.database;
+    var clients = await db.query("Clients", orderBy: "id");
+    List<Client> clientlist = clients.isNotEmpty ? clients.map((c) => Client.fromJson(c)).toList() : [];
+    return clientlist;
   }
 
-
-  getClient(int id) async {
-    final db = await initializeDB();
-    var res = await  db.query("Client", where: "id = ?", whereArgs: [id]);
-    return res.isNotEmpty ? Client.fromJson(res.first) : Null ;
+  Future<Client> searchByMail(String mail) async {
+    Database db = await instance.database;
+    var clients = await db.query("Clients", where: "mail = ?", whereArgs: [mail]);
+    List<Client> clientlist = clients.isNotEmpty ? clients.map((c) => Client.fromJson(c)).toList() : [];
+    Client client = clientlist[0];
+    return client;
   }
 
-  Future<List<Client>> getItems() async {
-    final db = await initializeDB();
-    final List<Map<String, Object?>> queryResult =
-    await db.query('Client', orderBy: "id");
-    return queryResult.map((e) => Client.fromJson(e)).toList();
+  Future<int> add(Client client) async {
+    Database db = await instance.database;
+    var clients = await db.query("Clients", orderBy: "id");
+    List<Client> clientlist = clients.isNotEmpty ? clients.map((c) => Client.fromJson(c)).toList() : [];
+    int id = clientlist.length + 1;
+    client.id = id;
+    return await db.insert("Clients", client.toJson());
   }
 
-  updateClient(Client newClient) async {
-    final db = await initializeDB();
-    var res = await db.update("Client", newClient.toJson(),
-        where: "id = ?", whereArgs: [newClient.id]);
-    return res;
+  Future<int> remove(int id) async {
+    Database db = await instance.database;
+    return await db.delete("Clients", where: "id = ?", whereArgs: [id]);
+  }
+
+  Future<int> update(Client client) async {
+    Database db = await instance.database;
+    return await db.update("Clients", client.toJson(), where: 'id = ?', whereArgs: [client.id]);
   }
 }
-
 

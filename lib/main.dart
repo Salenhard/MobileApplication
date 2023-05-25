@@ -1,20 +1,16 @@
-import 'dart:js_util';
-
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:untitled4/BackEnd/database/database.dart';
+import 'package:untitled4/FrontEnd/profile.dart';
 import '/FrontEnd/registration.dart';
 import '/FrontEnd/login.dart';
 import '/Other/extensions.dart';
-import '/FrontEnd/profile.dart';
 import '/FrontEnd/data_from_iot.dart';
 import '/FrontEnd/calculator.dart';
 import 'BackEnd/database/client_model.dart';
 import 'FrontEnd/weather_page.dart';
 void main() async {
-
-  SqliteService service = SqliteService();
-  service.createItem(Client(name: "name", mail: "mail", password: "password", age: 20));
+  WidgetsFlutterBinding.ensureInitialized();
+  int id = 0;
   runApp(MaterialApp(
     initialRoute: '/',
     routes: {
@@ -22,7 +18,7 @@ void main() async {
           backgroundColor: Extensions.colorDark,
           appBar: AppBar(title: const Text("Добро пожаловать!")),
           body: FutureBuilder<List<Client>>(
-              future: service.getItems(),
+              future: DatabaseHelper.instance.getClients(),
               builder: (BuildContext context, AsyncSnapshot<List<Client>> snapshot) {
                 if (snapshot.hasData) {
                   List<Client>? list = snapshot.data;
@@ -35,11 +31,25 @@ void main() async {
           ),
       ),
       '/registration': (BuildContext context) => Scaffold(
+          backgroundColor: Extensions.colorDark,
           appBar: AppBar(title: const Text('Регистрация')),
           body: const Registration()),
-      // '/profile': (BuildContext context) => Scaffold(
-      //     appBar: AppBar(title: const Text('Профиль')),
-      //     body: Profile(client)),
+      '/profile': (BuildContext context) => Scaffold(
+          appBar: AppBar(title: const Text('Профиль')),
+          body: FutureBuilder<List<Client>>(
+              future: DatabaseHelper.instance.getClients(),
+              builder: (BuildContext context, AsyncSnapshot<List<Client>> snapshot) {
+                if (snapshot.hasData) {
+                  List<Client>? list = snapshot.data;
+                  Client client = list![id];
+                  return Profile(client);
+                }
+                else {
+                  return const Center(child: CircularProgressIndicator());
+                }
+              }
+          ),
+      ),
       '/weather': (BuildContext context) => Scaffold(
           appBar: AppBar(title: const Text('Погода')),
           body: const MyHomePage()),
