@@ -18,59 +18,89 @@ class LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Center(
+          child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-              padding: const EdgeInsets.all(30.0),
-              child: const Text("Log In",
-                  style: TextStyle(
-                      color: Extensions.colorBright,
-                      fontWeight: FontWeight.bold),
-                  textScaleFactor: 3.0)),
-
-          Table(
-            columnWidths: const <int, TableColumnWidth>{
-              0: IntrinsicColumnWidth()
-            },
-            border: TableBorder.all(),
-            children: [
-              TableRow(
-                children: [
-                  Expanded(child: Container(color: Colors.amber, child: const Text("TEST"))),
-                ],
-              )
-            ],
-          ),
-
-          // Extensions.getExtendedInputFieldAsContainer("Email", RegExp(r'.+')),
-          // Extensions.getExtendedInputFieldAsContainer("Password", RegExp(r'.+')),
+              padding: const EdgeInsets.all(50.0),
+              child: const FittedBox(
+                child: Text("Sign In",
+                    style: TextStyle(
+                        color: Extensions.colorBright,
+                        fontWeight: FontWeight.bold),
+                    textScaleFactor: 3.0),
+              )),
           Container(
-            margin: const EdgeInsets.all(20.0),
-            child: Column(children: [
-              ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      setState(() {
-                        Navigator.pushNamed(context, '/profile');
-                      });
-                    }
-                  },
-                  style: Extensions.buttonStyleUsual1,
-                  child: const Text('Log In',
-                      style: TextStyle(color: Extensions.colorBright))),
-              const SizedBox(height: 20.0),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/registration');
-                  },
-                  style: Extensions.buttonStyleUsual1,
-                  child: const Text('Registration',
-                      style: TextStyle(color: Extensions.colorBright)))
-            ]),
-          )
+            padding: EdgeInsets.symmetric(
+                vertical: 10.0,
+                horizontal: MediaQuery.of(context).size.width * 0.15),
+            child: Align(
+                alignment: Alignment.centerLeft,
+                child: TextField(
+                  style: const TextStyle(color: Extensions.colorSmooth2),
+                  textAlignVertical: TextAlignVertical.center,
+                  decoration: Extensions.getTextFormFieldDecoration1("email"),
+                )),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(
+                vertical: 10.0,
+                horizontal: MediaQuery.of(context).size.width * 0.15),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: TextField(
+                autocorrect: false,
+                obscureText: true,
+                style: const TextStyle(color: Extensions.colorSmooth2),
+                textAlignVertical: TextAlignVertical.center,
+                decoration: Extensions.getTextFormFieldDecoration1("password"),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.45,
+            margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+            child: ElevatedButton(
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  setState(() {
+                    Navigator.pushNamed(context, '/profile');
+                  });
+                }
+              },
+              style: Extensions.buttonStyleUsual1,
+              child: const Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Text('Login',
+                    style: TextStyle(
+                        color: Extensions.colorBright,
+                        fontWeight: FontWeight.bold)),
+              ),
+            ),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.45,
+            margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/registration');
+              },
+              style: Extensions.buttonStyleUsual1,
+              child: const Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Text('Sign up',
+                    style: TextStyle(
+                        color: Extensions.colorBright,
+                        fontWeight: FontWeight.bold)),
+              ),
+            ),
+          ),
         ],
-      ),
+      )),
     );
   }
 }
