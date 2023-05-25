@@ -1,14 +1,7 @@
-import 'dart:io';
-import 'dart:js_interop';
-import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
-
 import 'client_model.dart';
 
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
 class SqliteService {
   Future<Database> initializeDB() async {
     String path = await getDatabasesPath();
