@@ -6,6 +6,7 @@ class Client {
   int age;
 
   Client({
+    this.id = 0,
     required this.name,
     required this.mail,
     required this.password,
@@ -13,16 +14,17 @@ class Client {
   });
 
   Map<String, Object> toMap() => {
-        "id": id,
-        "name": name,
-        "mail": mail,
-        "password": password,
-        "age": age,
+        ClientFields.id: id,
+        ClientFields.name: name,
+        ClientFields.mail: mail,
+        ClientFields.password: password,
+        ClientFields.age: age,
       };
 }
 
 class ClientFields {
   static const String tableName = "clients";
+
   static const String id = "_id";
   static const String name = "name";
   static const String mail = "mail";
