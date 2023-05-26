@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-
-import '../BackEnd/database/client_model.dart';
 import 'application.dart';
 
 class Profile extends StatefulWidget {
-  Profile({super.key});
+  const Profile({super.key});
   @override
   State<StatefulWidget> createState() => ProfileState();
 }
