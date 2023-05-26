@@ -13,38 +13,45 @@ class LoginState extends State<Login> {
   String mail = "";
   String password = "";
 
+  final _mailTEC = TextEditingController();
+  final _passwordTEC = TextEditingController();
+
+  var _isSomeFieldIsEmpty = false;
+  var _isInputsIsWrong = false;
+
   LoginState();
   @override
   Widget build(BuildContext context) {
     return Form(
         key: _formKey,
-        child: Center(
+        child: Wrap(crossAxisAlignment: WrapCrossAlignment.start, children: [
+          // Title
 
-            // TODO: Center buttons alignment
+          Align(
+            alignment: Alignment.topLeft,
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 100, horizontal: 10),
+              // color: Colors.amber,
+              child: const Text("Hello there.",
+                  style: TextStyle(
+                      color: Extensions.colorBright,
+                      fontWeight: FontWeight.bold),
+                  textScaleFactor: 5),
+            ),
+          ),
 
-            child: Wrap(
-              alignment: WrapAlignment.start,
-              crossAxisAlignment: WrapCrossAlignment.start,
-                children: [
-              Align(
-                alignment: Alignment.topLeft,
-                child: Container(
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 100, horizontal: 10),
-                  // color: Colors.amber,
-                  child: const Text("Hello there.",
-                      style: TextStyle(
-                          color: Extensions.colorBright,
-                          fontWeight: FontWeight.bold),
-                      textScaleFactor: 5),
-                ),
-              ),
+          // Inputs
+
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
               Container(
                 padding: EdgeInsets.symmetric(
                     vertical: 10.0,
                     horizontal: MediaQuery.of(context).size.width * 0.15),
                 child: TextField(
-                  key: const Key("inputMail"),
+                  controller: _mailTEC,
                   style: const TextStyle(color: Extensions.colorSmooth2),
                   textAlignVertical: TextAlignVertical.center,
                   decoration: Extensions.getTextFormFieldDecoration1("email"),
@@ -55,6 +62,7 @@ class LoginState extends State<Login> {
                     vertical: 10.0,
                     horizontal: MediaQuery.of(context).size.width * 0.15),
                 child: TextField(
+                  controller: _passwordTEC,
                   autocorrect: false,
                   obscureText: true,
                   style: const TextStyle(color: Extensions.colorSmooth2),
@@ -62,105 +70,81 @@ class LoginState extends State<Login> {
                   decoration:
                       Extensions.getTextFormFieldDecoration1("password"),
                 ),
-              ),
+              )
+            ],
+          ),
+
+          // Warnings
+
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
               Container(
-                width: MediaQuery.of(context).size.width * 0.75,
-                padding: const EdgeInsets.symmetric(vertical: 5),
-                child: Column(
-                  children: [
-                    ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/profile');
-                        },
-                        style: Extensions.buttonStyleUsual1,
-                        child: const Text('Log In',
-                            style: TextStyle(color: Extensions.colorBright))),
-                    ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/profile');
-                        },
-                        style: Extensions.buttonStyleUsual1,
-                        child: const Text('Sign Up',
-                            style: TextStyle(color: Extensions.colorBright))),
-                  ],
+                alignment: Alignment.center,
+                child: Visibility(
+                  visible: _isSomeFieldIsEmpty,
+                  child: const Text(
+                    "Input email and\\or password",
+                    style: TextStyle(color: Colors.red),
+                  ),
                 ),
               ),
-
-              /*
-
-        Column(
-        children: [
-          const Expanded(
-              child: FittedBox(
-                child: Text("Sign In",
-                    style: TextStyle(
-                        color: Extensions.colorBright,
-                        fontWeight: FontWeight.bold),
-                    textScaleFactor: 3.0),
-              )),
-          Container(
-            padding: EdgeInsets.symmetric(
-                vertical: 10.0,
-                horizontal: MediaQuery.of(context).size.width * 0.15),
-            child: Align(
-                alignment: Alignment.centerLeft,
-                child: TextField(
-                  style: const TextStyle(color: Extensions.colorSmooth2),
-                  textAlignVertical: TextAlignVertical.center,
-                  decoration: Extensions.getTextFormFieldDecoration1("email"),
-                )),
+              Container(
+                alignment: Alignment.center,
+                child: Visibility(
+                  visible: _isInputsIsWrong,
+                  child: const Text(
+                    "Wrong email and\\or password",
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ),
+              )
+            ],
           ),
+
+          // Buttons
+
           Container(
-            padding: EdgeInsets.symmetric(
-                vertical: 10.0,
-                horizontal: MediaQuery.of(context).size.width * 0.15),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: TextField(
-                autocorrect: false,
-                obscureText: true,
-                style: const TextStyle(color: Extensions.colorSmooth2),
-                textAlignVertical: TextAlignVertical.center,
-                decoration: Extensions.getTextFormFieldDecoration1("password"),
-              ),
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: ElevatedButton(
+                      onPressed: () {
+                        if (_mailTEC.text.isEmpty ||
+                            _passwordTEC.text.isEmpty) {
+                          setState(() {
+                            _isSomeFieldIsEmpty = true;
+                          });
+                          return;
+                        }
+                        setState(() {
+                          _isSomeFieldIsEmpty = false;
+                        });
+
+                        Navigator.pushNamed(context, '/profile');
+                      },
+                      style: Extensions.buttonElevatedStyleUsual1,
+                      child: const Text('Log In',
+                          style: TextStyle(color: Extensions.colorBright))),
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/registration');
+                      },
+                      style: Extensions.buttonElevatedStyleUsual2,
+                      child: const Text('Sign Up',
+                          style: TextStyle(color: Extensions.colorBright))),
+                )
+              ],
             ),
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.45,
-            margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-            child: Column(children: [
-              ElevatedButton(
-                  onPressed: () {
-                    for (int i = 0; i < list.length; i++) {
-                      if (mail == list[i].mail &&
-                          password == list[i].password) {
-                        Navigator.pushNamed(context, '/profile');
-                      } else {
-                        // wrong
-                      }
-                    }
-                    Navigator.pushNamed(context, '/profile');
-                  },
-                  style: Extensions.buttonStyleUsual1,
-                  child: const Text('Log In',
-                      style: TextStyle(color: Extensions.colorBright))),
-              const SizedBox(height: 20.0),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/registration');
-                  },
-                  style: Extensions.buttonStyleUsual1,
-                  child: const Text('Registration',
-                      style: TextStyle(color: Extensions.colorBright)))
-            ]),
-          )
-        ],
-      )
-
-        */
-            ])));
+        ]));
   }
 }
