@@ -8,12 +8,15 @@ class Extensions {
   static const Color colorSmooth3 = Color.fromARGB(255, 105, 105, 105);
   static const Color colorBright = Color.fromARGB(255, 214, 213, 168);
 
-  static const ButtonStyle buttonStyleUsual1 = ButtonStyle(
+  static const ButtonStyle buttonElevatedStyleUsual1 = ButtonStyle(
       backgroundColor: MaterialStatePropertyAll(Extensions.colorSmooth1),
-      overlayColor: MaterialStatePropertyAll(Extensions.colorSmooth2),
-      textStyle: MaterialStatePropertyAll(TextStyle(
-        color: Extensions.colorBright,
-      )));
+      overlayColor: MaterialStatePropertyAll(Extensions.colorSmooth2));
+
+  static const ButtonStyle buttonElevatedStyleUsual2 = ButtonStyle(
+      backgroundColor: MaterialStatePropertyAll(Colors.transparent),
+      shadowColor: MaterialStatePropertyAll(Colors.transparent),
+      overlayColor: MaterialStatePropertyAll(Extensions.colorSmooth1),
+      side: MaterialStatePropertyAll(BorderSide(color: Extensions.colorSmooth1)));
 
   static const TextStyle textStyleMainField1 =
       TextStyle(color: colorBright, fontWeight: FontWeight.bold);
@@ -23,9 +26,9 @@ class Extensions {
         labelText: 'Enter your $inputFieldText',
         labelStyle: const TextStyle(color: colorSmooth1),
         enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(25.0),
+            borderRadius: BorderRadius.circular(25),
             borderSide: const BorderSide(color: colorSmooth1)),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(25.0)));
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)));
   }
 
   static Row packageWidgetsAsRow(List<Widget> widgets) {
