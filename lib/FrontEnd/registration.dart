@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:untitled4/BackEnd/database/database.dart';
+import '../BackEnd/database/client_model.dart';
 import '../Other/extensions.dart';
 
 class Registration extends StatefulWidget {
@@ -10,125 +12,113 @@ class Registration extends StatefulWidget {
 
 class RegistrationState extends State<Registration> {
   final _formKey = GlobalKey<FormState>();
-  String mail = "";
-  String password = "";
-  String password2 = "";
-  int age = 0;
-  String name = "";
+
+  final _nameTEC = TextEditingController();
+  final _mailTEC = TextEditingController();
+  final _password1TEC = TextEditingController();
+  final _password2TEC = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Form(
-        key: _formKey,
-        child: Column(children: [
-          const SizedBox(height: 10.0),
-          TextFormField(
-            autofillHints: Characters("Input Email here..."),
-            validator: (value) {
-              if (value!.isEmpty) {
-                return "Input Email";
-              }
-              if (!Extensions.validation(
-                  value, RegExp(r'(.+)+(@)+(.{1})+(\.)+.+'))) {
-                return "Invalid inputFieldText value";
-              } else {
-                mail = value;
-              }
+      key: _formKey,
+      child: SingleChildScrollView(
+        child: Wrap(
+          alignment: WrapAlignment.center,
+          crossAxisAlignment: WrapCrossAlignment.start,
+          children: [
+            // Button back
 
-              return null;
-            },
-            decoration: Extensions.getTextFormFieldDecoration1("Email"),
-            style: const TextStyle(color: Extensions.colorSmooth2),
-            textAlignVertical: TextAlignVertical.center,
-          ),
-          TextFormField(
-            autofillHints: Characters("Input Password here..."),
-            validator: (value) {
-              if (value!.isEmpty) {
-                return "Input Password";
-              }
-              if (!Extensions.validation(
-                  value,
-                  RegExp(
-                      r'^(?=.*?[A-ZА-Я])(?=.*?[a-zа-я])(?=.*?[0-9]).{8,}$'))) {
-                return "Invalid inputFieldText value";
-              } else {
-                password = value;
-              }
+            AppBar(
+              backgroundColor: Colors.transparent,
+              shadowColor: Colors.transparent,
+              iconTheme: const IconThemeData(color: Extensions.colorBright),
+            ),
 
-              return null;
-            },
-            decoration: Extensions.getTextFormFieldDecoration1("password"),
-            style: const TextStyle(color: Extensions.colorSmooth2),
-            textAlignVertical: TextAlignVertical.center,
-          ),
-          TextFormField(
-            autofillHints: Characters("Input Password here..."),
-            validator: (value) {
-              if (value!.isEmpty) {
-                return "Input Password";
-              }
-              if (!Extensions.validation(value, RegExp(r'.+'))) {
-                return "Invalid inputFieldText value";
-              } else {
-                password2 = value;
-              }
+            // Title
 
-              return null;
-            },
-            decoration: Extensions.getTextFormFieldDecoration1("password"),
-            style: const TextStyle(color: Extensions.colorSmooth2),
-            textAlignVertical: TextAlignVertical.center,
-          ),
-          TextFormField(
-            autofillHints: Characters("Input Name here..."),
-            validator: (value) {
-              if (value!.isEmpty) {
-                return "Input Name";
-              }
-              if (!Extensions.validation(value, RegExp(r'^[a-zA-Zа-яА-Я]+$'))) {
-                return "Invalid inputFieldText value";
-              } else {
-                name = value;
-              }
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                margin: const EdgeInsets.fromLTRB(10, 40, 10, 60),
+                // color: Colors.amber,
+                child: const Text("Registration.",
+                    style: Extensions.textStyleMainField1, textScaleFactor: 3),
+              ),
+            ),
 
-              return null;
-            },
-            decoration: Extensions.getTextFormFieldDecoration1("name"),
-            style: const TextStyle(color: Extensions.colorSmooth2),
-            textAlignVertical: TextAlignVertical.center,
-          ),
-          TextFormField(
-            autofillHints: Characters("Input Age here..."),
-            validator: (value) {
-              if (value!.isEmpty) {
-                return "Input Age";
-              }
-              if (!Extensions.validation(value, RegExp(r'^\d+$'))) {
-                return "Invalid inputFieldText value";
-              } else {
-                age = int.parse(value);
-              }
+            // Inputs
 
-              return null;
-            },
-            decoration: Extensions.getTextFormFieldDecoration1("Age"),
-            style: const TextStyle(color: Extensions.colorSmooth2),
-            textAlignVertical: TextAlignVertical.center,
-          ),
-          const SizedBox(height: 50.0),
-          ElevatedButton(
-              onPressed: () async {
-                if (_formKey.currentState!.validate()) {
-                  
-                  // Navigator.pop(context);
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  textStyle: const TextStyle(color: Colors.white)),
-              child: const Text('Регистрация')),
-          const SizedBox(height: 50.0),
-        ]));
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Extensions.getFullInputFieldAsColumn(
+                    "Name",
+                    Extensions.getTextFormFieldValidator("name", RegExp(r'.+')),
+                    _nameTEC),
+                Extensions.getFullInputFieldAsColumn(
+                    "Email",
+                    Extensions.getTextFormFieldValidator(
+                        "email", RegExp(r'(.+)+(@)+(.{1})+(\.)+.+')),
+                    _mailTEC),
+                Extensions.getFullInputFieldAsColumn(
+                    "Password",
+                    Extensions.getTextFormFieldValidator(
+                        "password",
+                        RegExp(
+                            r'^(?=.*?[A-ZА-Я])(?=.*?[a-zа-я])(?=.*?[0-9]).{8,}$')),
+                    _password1TEC,
+                    isPassword: true),
+                Extensions.getFullInputFieldAsColumn("Repeat password",
+                    (value) {
+                  if (value!.isEmpty) {
+                    return "Repeat password";
+                  }
+
+                  if (value != _password1TEC.text) {
+                    return "Password does not match";
+                  }
+
+                  return null;
+                }, _password2TEC, isPassword: true),
+              ],
+            ),
+
+            // Button
+
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 30),
+              child: ElevatedButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      try {
+                        await ClientsDataBase.insert(Client(
+                            name: _nameTEC.text,
+                            mail: _mailTEC.text,
+                            password: _password1TEC.text));
+
+                        // ignore: use_build_context_synchronously
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            Extensions.getSnackBar(
+                                "Registration successful, login to continue"));
+
+                        // ignore: use_build_context_synchronously
+                        Navigator.pop(context);
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            Extensions.getSnackBar(
+                                "Something was wrong with data base\nError: $e"));
+                      }
+                    }
+                  },
+                  style: Extensions.buttonElevatedStyleUsual1,
+                  child:
+                      const Text('Sign Up', style: Extensions.textStyleUsual1)),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
