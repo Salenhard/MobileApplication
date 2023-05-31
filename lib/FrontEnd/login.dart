@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled4/BackEnd/database/database.dart';
 import '/Other/extensions.dart';
 
 class Login extends StatefulWidget {
@@ -85,7 +86,7 @@ class LoginState extends State<Login> {
                 child: Visibility(
                   visible: _isSomeFieldIsEmpty,
                   child: const Text(
-                    "Input email and\\or password",
+                    "Input email and password",
                     style: TextStyle(color: Colors.red),
                   ),
                 ),
@@ -114,9 +115,11 @@ class LoginState extends State<Login> {
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 10),
                   child: ElevatedButton(
-                      onPressed: () {
-                        if (_mailTEC.text.isEmpty ||
-                            _passwordTEC.text.isEmpty) {
+                      onPressed: () async {
+                        var mail = _mailTEC.text;
+                        var password = _passwordTEC.text;
+
+                        if (mail.isEmpty || password.isEmpty) {
                           setState(() {
                             _isSomeFieldIsEmpty = true;
                           });
@@ -126,7 +129,25 @@ class LoginState extends State<Login> {
                           _isSomeFieldIsEmpty = false;
                         });
 
-                        Navigator.pushNamed(context, '/profile');
+                        try {
+                          if (!(await ClientsDataBase.isThereClientByLoginInfo(
+                              mail, password))) {
+                            setState(() {
+                              _isInputsIsWrong = true;
+                            });
+                            return;
+                          }
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                                  "Something was wrong with data base\n Error: $e")));
+                        }
+
+                        setState(() {
+                          _isInputsIsWrong = false;
+                        });
+
+                        // todo: runApp(MainMenu());
                       },
                       style: Extensions.buttonElevatedStyleUsual1,
                       child: const Text('Log In',
