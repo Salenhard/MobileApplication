@@ -16,7 +16,8 @@ class Extensions {
       backgroundColor: MaterialStatePropertyAll(Colors.transparent),
       shadowColor: MaterialStatePropertyAll(Colors.transparent),
       overlayColor: MaterialStatePropertyAll(Extensions.colorSmooth1),
-      side: MaterialStatePropertyAll(BorderSide(color: Extensions.colorSmooth1)));
+      side:
+          MaterialStatePropertyAll(BorderSide(color: Extensions.colorSmooth1)));
 
   static const TextStyle textStyleMainField1 =
       TextStyle(color: colorBright, fontWeight: FontWeight.bold);
@@ -39,9 +40,13 @@ class Extensions {
     return Column(children: widgets);
   }
 
-  static TextFormField getTextFormFieldWithValidator(String inputFieldText,
-      RegExp validationExpression, InputDecoration decoration) {
+  static TextFormField getTextFormFieldWithValidator(
+      String inputFieldText,
+      RegExp validationExpression,
+      TextEditingController textController,
+      InputDecoration decoration) {
     return TextFormField(
+      controller: textController,
       autofillHints: Characters("Input $inputFieldText here..."),
       validator: (value) {
         if (value!.isEmpty) {
