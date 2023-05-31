@@ -66,4 +66,32 @@ class Extensions {
   static bool validation(String input, RegExp regularExpression) {
     return regularExpression.firstMatch(input) != null;
   }
+
+  static Column getFullInputFieldAsColumn(String inputFieldText,
+      RegExp validationExpression, TextEditingController textController,
+      {double marginHorizontal = 30, double distanceFloating = 5}) {
+    return Column(
+      children: [
+        Container(
+          alignment: Alignment.centerLeft,
+          margin:
+              EdgeInsets.symmetric(vertical: distanceFloating, horizontal: marginHorizontal),
+          child: Text(
+            "$inputFieldText:",
+            style: Extensions.textStyleMainField1,
+            textScaleFactor: 1.5,
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: marginHorizontal),
+          child: Extensions.getTextFormFieldWithValidator(
+              inputFieldText.toLowerCase(),
+              validationExpression,
+              textController,
+              Extensions.getTextFormFieldDecoration1(
+                  inputFieldText.toLowerCase())),
+        ),
+      ],
+    );
+  }
 }
