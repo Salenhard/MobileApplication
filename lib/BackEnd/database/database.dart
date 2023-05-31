@@ -29,8 +29,7 @@ CREATE TABLE IF NOT EXISTS ${ClientFields.tableName} (
   ${ClientFields.id} $idType,
   ${ClientFields.name} TEXT,
   ${ClientFields.mail} TEXT,
-  ${ClientFields.password} TEXT,
-  ${ClientFields.age} INTEGER,
+  ${ClientFields.password} TEXT
 )
 ''');
   }
