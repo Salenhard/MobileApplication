@@ -57,6 +57,15 @@ CREATE TABLE IF NOT EXISTS ${ClientFields.tableName} (
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
+  static Future<bool> isThereClientByMail(String mail) async {
+    var db = await _dataBase!;
+
+    return (await db.query(ClientFields.tableName,
+            where: '${ClientFields.mail} = ?',
+            whereArgs: [mail]))
+        .isNotEmpty;
+  }
+
   static Future<bool> isThereClientByLoginInfo(
       String mail, String password) async {
     var db = await _dataBase!;
