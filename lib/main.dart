@@ -5,6 +5,7 @@ import '/FrontEnd/login.dart';
 import '/Other/extensions.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   ClientsDataBase.init();
 
   runApp(MaterialApp(
