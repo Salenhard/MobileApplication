@@ -32,10 +32,7 @@ class LoginState extends State<Login> {
               margin: const EdgeInsets.symmetric(vertical: 100, horizontal: 10),
               // color: Colors.amber,
               child: const Text("Hello there.",
-                  style: TextStyle(
-                      color: Extensions.colorBright,
-                      fontWeight: FontWeight.bold),
-                  textScaleFactor: 5),
+                  style: Extensions.textStyleMainField1, textScaleFactor: 5),
             ),
           ),
 
@@ -138,7 +135,7 @@ class LoginState extends State<Login> {
                         } catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(
-                                  "Something was wrong with data base\n Error: $e")));
+                                  "Something was wrong with data base\nError: $e")));
                         }
 
                         setState(() {
@@ -149,7 +146,7 @@ class LoginState extends State<Login> {
                       },
                       style: Extensions.buttonElevatedStyleUsual1,
                       child: const Text('Log In',
-                          style: TextStyle(color: Extensions.colorBright))),
+                          style: Extensions.textStyleUsual1)),
                 ),
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -159,7 +156,7 @@ class LoginState extends State<Login> {
                       },
                       style: Extensions.buttonElevatedStyleUsual2,
                       child: const Text('Sign Up',
-                          style: TextStyle(color: Extensions.colorBright))),
+                          style: Extensions.textStyleUsual1)),
                 )
               ],
             ),
