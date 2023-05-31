@@ -22,15 +22,19 @@ class Extensions {
   static const TextStyle textStyleMainField1 =
       TextStyle(color: colorBright, fontWeight: FontWeight.bold);
 
+  static const TextStyle textStyleUsual1 = TextStyle(color: colorBright);
+
   static InputDecoration getTextFormFieldDecoration1(String inputFieldText) {
     return InputDecoration(
         labelText: 'Enter your $inputFieldText',
         labelStyle: const TextStyle(color: colorSmooth1),
-        enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(25),
-            borderSide: const BorderSide(color: colorSmooth1)),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)));
+        enabledBorder: inputFieldBorder1,
+        border: inputFieldBorder1);
   }
+
+  static OutlineInputBorder inputFieldBorder1 = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(25),
+      borderSide: const BorderSide(color: colorSmooth1));
 
   static Row packageWidgetsAsRow(List<Widget> widgets) {
     return Row(children: widgets);
@@ -69,27 +73,28 @@ class Extensions {
 
   static Column getFullInputFieldAsColumn(String inputFieldText,
       RegExp validationExpression, TextEditingController textController,
-      {double marginHorizontal = 30, double distanceFloating = 5}) {
+      {double marginHorizontal = 35, double distanceFloating = 5}) {
     return Column(
       children: [
         Container(
           alignment: Alignment.centerLeft,
-          margin:
-              EdgeInsets.symmetric(vertical: distanceFloating, horizontal: marginHorizontal),
+          margin: EdgeInsets.symmetric(
+              vertical: distanceFloating, horizontal: marginHorizontal),
           child: Text(
             "$inputFieldText:",
-            style: Extensions.textStyleMainField1,
-            textScaleFactor: 1.5,
+            style: Extensions.textStyleUsual1,
+            textScaleFactor: 1.25,
           ),
         ),
         Container(
-          margin: EdgeInsets.symmetric(horizontal: marginHorizontal),
+          margin: EdgeInsets.symmetric(
+              horizontal: marginHorizontal, vertical: distanceFloating),
           child: Extensions.getTextFormFieldWithValidator(
               inputFieldText.toLowerCase(),
               validationExpression,
               textController,
-              Extensions.getTextFormFieldDecoration1(
-                  inputFieldText.toLowerCase())),
+              InputDecoration(
+                  enabledBorder: inputFieldBorder1, border: inputFieldBorder1)),
         ),
       ],
     );
