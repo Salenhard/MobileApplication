@@ -23,6 +23,7 @@ class Extensions {
       TextStyle(color: colorBright, fontWeight: FontWeight.bold);
 
   static const TextStyle textStyleUsual1 = TextStyle(color: colorBright);
+  static const TextStyle textStyleUsual2 = TextStyle(color: colorSmooth2);
 
   static InputDecoration getTextFormFieldDecoration1(String inputFieldText) {
     return InputDecoration(
@@ -46,23 +47,18 @@ class Extensions {
 
   static TextFormField getTextFormFieldWithValidator(
       String inputFieldText,
-      RegExp validationExpression,
+      String? Function(String?) validator,
       TextEditingController textController,
-      InputDecoration decoration) {
+      InputDecoration decoration,
+      {bool isPassword = false}) {
     return TextFormField(
+      autocorrect: !isPassword,
+      obscureText: isPassword,
       controller: textController,
       autofillHints: Characters("Input $inputFieldText here..."),
-      validator: (value) {
-        if (value!.isEmpty) {
-          return "Input $inputFieldText";
-        }
-        if (!Extensions.validation(value, validationExpression)) {
-          return "Invalid $inputFieldText value";
-        }
-        return null;
-      },
+      validator: validator,
       decoration: decoration,
-      style: const TextStyle(color: colorSmooth2),
+      style: textStyleUsual2,
       textAlignVertical: TextAlignVertical.center,
     );
   }
@@ -71,9 +67,32 @@ class Extensions {
     return regularExpression.firstMatch(input) != null;
   }
 
-  static Column getFullInputFieldAsColumn(String inputFieldText,
-      RegExp validationExpression, TextEditingController textController,
-      {double marginHorizontal = 35, double distanceFloating = 5}) {
+  static String? Function(String?) getTextFormFieldValidator(
+      String inputFieldText, RegExp validationExpression) {
+    return (String? value) {
+      if (value!.isEmpty) {
+        return "Input $inputFieldText";
+      }
+      if (!validation(value, validationExpression)) {
+        return "Invalid $inputFieldText value";
+      }
+      return null;
+    };
+  }
+
+  static SnackBar getSnackBar(String text)
+  {
+    return SnackBar(content: Text(text, style: textStyleUsual1,),
+    backgroundColor: colorDark);
+  }
+
+  static Column getFullInputFieldAsColumn(
+      String inputFieldText,
+      String? Function(String?) validator,
+      TextEditingController textController,
+      {double marginHorizontal = 35,
+      double distanceFloating = 5,
+      bool isPassword = false}) {
     return Column(
       children: [
         Container(
@@ -82,7 +101,7 @@ class Extensions {
               vertical: distanceFloating, horizontal: marginHorizontal),
           child: Text(
             "$inputFieldText:",
-            style: Extensions.textStyleUsual1,
+            style: textStyleUsual1,
             textScaleFactor: 1.25,
           ),
         ),
@@ -91,10 +110,11 @@ class Extensions {
               horizontal: marginHorizontal, vertical: distanceFloating),
           child: Extensions.getTextFormFieldWithValidator(
               inputFieldText.toLowerCase(),
-              validationExpression,
+              validator,
               textController,
               InputDecoration(
-                  enabledBorder: inputFieldBorder1, border: inputFieldBorder1)),
+                  enabledBorder: inputFieldBorder1, border: inputFieldBorder1),
+              isPassword: isPassword),
         ),
       ],
     );
