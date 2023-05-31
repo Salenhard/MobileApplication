@@ -11,8 +11,6 @@ class Login extends StatefulWidget {
 
 class LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
-  String mail = "";
-  String password = "";
 
   final _mailTEC = TextEditingController();
   final _passwordTEC = TextEditingController();
