@@ -63,7 +63,7 @@ class Extensions {
     );
   }
 
-  static bool validation(String input, RegExp regularExpression) {
+  static bool validate(String input, RegExp regularExpression) {
     return regularExpression.firstMatch(input) != null;
   }
 
@@ -73,7 +73,7 @@ class Extensions {
       if (value!.isEmpty) {
         return "Input $inputFieldText";
       }
-      if (!validation(value, validationExpression)) {
+      if (!validate(value, validationExpression)) {
         return "Invalid $inputFieldText value";
       }
       return null;
