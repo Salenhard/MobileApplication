@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:untitled4/BackEnd/database/database.dart';
+import 'package:untitled4/BackEnd/database/data_base.dart';
 import '../BackEnd/database/client_model.dart';
 import '../Other/extensions.dart';
 
@@ -67,7 +67,7 @@ class RegistrationState extends State<Registration> {
                     Extensions.getTextFormFieldValidator(
                         "password",
                         RegExp(
-                            r'^(?=.*?[A-ZА-Я])(?=.*?[a-zа-я])(?=.*?[0-9]).{8,}$')),
+                            r'^(?=.*[^ ])(?=.*?[A-ZА-Я])(?=.*?[a-zа-я])(?=.*?[0-9]).{8,}$')),
                     _password1TEC,
                     isPassword: true),
                 Extensions.getFullInputFieldAsColumn("Repeat password",
@@ -92,11 +92,22 @@ class RegistrationState extends State<Registration> {
               child: ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
+                      var mail = _mailTEC.text.replaceAll(r' ', '');
+                      var password = _password1TEC.text.replaceAll(r' ', '');
+
                       try {
+                        if (await ClientsDataBase.isThereClientByMail(mail)) {
+                          // ignore: use_build_context_synchronously
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              Extensions.getSnackBar(
+                                  "This email is already taken. Please enter a different email"));
+                          return;
+                        }
+
                         await ClientsDataBase.insert(Client(
                             name: _nameTEC.text,
-                            mail: _mailTEC.text,
-                            password: _password1TEC.text));
+                            mail: mail,
+                            password: password));
 
                         // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(
