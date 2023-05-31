@@ -34,6 +34,13 @@ CREATE TABLE IF NOT EXISTS ${ClientFields.tableName} (
 ''');
   }
 
+  static Future clear() async 
+  {
+    var db = await _dataBase!;
+
+    await db.rawDelete("DELETE FROM ${ClientFields.tableName}");
+  }
+
   static Future<int> insert(Client client) async {
     var db = await _dataBase!;
 
