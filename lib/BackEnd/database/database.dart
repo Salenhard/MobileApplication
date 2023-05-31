@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS ${ClientFields.tableName} (
     var db = await _dataBase!;
 
     return (await db.query(ClientFields.tableName,
-            where: '${ClientFields.mail} = ?, ${ClientFields.password} = ?',
+            where: '${ClientFields.mail} = ? AND ${ClientFields.password} = ?',
             whereArgs: [mail, password]))
         .isNotEmpty;
   }
