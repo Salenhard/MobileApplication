@@ -27,7 +27,7 @@ class LoginState extends State<Login> {
           // Title
 
           Align(
-            alignment: Alignment.topLeft,
+            alignment: Alignment.centerLeft,
             child: Container(
               margin: const EdgeInsets.symmetric(vertical: 100, horizontal: 10),
               // color: Colors.amber,
