@@ -34,8 +34,14 @@ CREATE TABLE IF NOT EXISTS ${ClientFields.tableName} (
 ''');
   }
 
-  static Future clear() async 
-  {
+  static Future<Client> findClientByID(int id) async {
+    var db = await _dataBase!;
+
+    return Client.fromMap((await db.query(ClientFields.tableName,
+        where: '${ClientFields.id} = ?', whereArgs: [id])).first);
+  }
+
+  static Future clear() async {
     var db = await _dataBase!;
 
     await db.rawDelete("DELETE FROM ${ClientFields.tableName}");
@@ -68,8 +74,7 @@ CREATE TABLE IF NOT EXISTS ${ClientFields.tableName} (
     var db = await _dataBase!;
 
     return (await db.query(ClientFields.tableName,
-            where: '${ClientFields.mail} = ?',
-            whereArgs: [mail]))
+            where: '${ClientFields.mail} = ?', whereArgs: [mail]))
         .isNotEmpty;
   }
 
