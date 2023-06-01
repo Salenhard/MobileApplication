@@ -17,6 +17,14 @@ class Client {
         ClientFields.mail: mail,
         ClientFields.password: password,
       };
+
+  static Client fromMap(Map<String, Object?> map) {
+    return Client(
+        id: map[ClientFields.id] as int,
+        name: map[ClientFields.name] as String,
+        mail: map[ClientFields.mail] as String,
+        password: map[ClientFields.password] as String);
+  }
 }
 
 class ClientFields {
