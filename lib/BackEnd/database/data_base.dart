@@ -5,6 +5,7 @@ import 'client_model.dart';
 
 class ClientsDataBase {
   static Future<Database>? _dataBase;
+  static Client? user;
 
   static init() async {
     _dataBase = open();
@@ -38,20 +39,25 @@ CREATE TABLE IF NOT EXISTS ${ClientFields.tableName} (
     var db = await _dataBase!;
 
     return Client.fromMap((await db.query(ClientFields.tableName,
-        where: '${ClientFields.id} = ?', whereArgs: [id])).first);
+            where: '${ClientFields.id} = ?', whereArgs: [id]))
+        .first);
   }
 
   static Future clear() async {
     var db = await _dataBase!;
+    user = null;
 
     await db.rawDelete("DELETE FROM ${ClientFields.tableName}");
   }
 
-  static Future<int> insert(Client client) async {
+  static Future insert(Client client) async {
     var db = await _dataBase!;
 
-    return db.insert(ClientFields.tableName, client.toMap(),
+    var id = await db.insert(ClientFields.tableName, client.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
+
+    user = client;
+    user!.id = id;
   }
 
   static Future deleteClient(Client client) async {
@@ -63,6 +69,8 @@ CREATE TABLE IF NOT EXISTS ${ClientFields.tableName} (
 
   static Future updateCliend(Client client) async {
     var db = await _dataBase!;
+
+    user = client;
 
     await db.update(ClientFields.tableName, client.toMap(),
         where: '${ClientFields.id} = ?',
@@ -82,9 +90,15 @@ CREATE TABLE IF NOT EXISTS ${ClientFields.tableName} (
       String mail, String password) async {
     var db = await _dataBase!;
 
-    return (await db.query(ClientFields.tableName,
-            where: '${ClientFields.mail} = ? AND ${ClientFields.password} = ?',
-            whereArgs: [mail, password]))
-        .isNotEmpty;
+    var findedClients = await db.query(ClientFields.tableName,
+        where: '${ClientFields.mail} = ? AND ${ClientFields.password} = ?',
+        whereArgs: [mail, password]);
+
+    if (findedClients.isNotEmpty) {
+      user = Client.fromMap(findedClients.first);
+      return true;
+    }
+
+    return false;
   }
 }

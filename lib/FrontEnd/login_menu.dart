@@ -151,9 +151,7 @@ class LoginState extends State<Login> {
                           });
                           return;
                         } else {
-                          var user = await ClientsDataBase.findClientByID(id);
-
-                          runApp(MainMenu(user: user));
+                          runApp(const MainMenu());
                         }
                       } catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(
