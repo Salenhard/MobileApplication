@@ -22,6 +22,9 @@ class Extensions {
   static const TextStyle textStyleMainField1 =
       TextStyle(color: colorBright, fontWeight: FontWeight.bold);
 
+  static const TextStyle textStyleMainField2 =
+      TextStyle(color: colorDark, fontWeight: FontWeight.bold);
+
   static const TextStyle textStyleUsual1 = TextStyle(color: colorBright);
   static const TextStyle textStyleUsual2 = TextStyle(color: colorSmooth2);
 
