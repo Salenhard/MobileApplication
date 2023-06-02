@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:untitled4/BackEnd/database/data_base.dart';
 import 'package:untitled4/FrontEnd/main_menu.dart';
 import 'package:untitled4/FrontEnd/registration.dart';
@@ -35,8 +36,6 @@ class LoginState extends State<Login> {
 
   var _isSomeFieldIsEmpty = false;
   var _isInputsIsWrong = false;
-
-  static int id = 0;
 
   LoginState();
   @override
