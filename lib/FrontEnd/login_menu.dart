@@ -1,7 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:untitled4/BackEnd/database/data_base.dart';
 import 'package:untitled4/FrontEnd/main_menu.dart';
+import 'package:untitled4/FrontEnd/registration.dart';
 import '/Other/extensions.dart';
+
+class LoginMenu extends StatelessWidget {
+  const LoginMenu({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      initialRoute: '/',
+      routes: {
+        '/': (BuildContext context) => const Scaffold(
+            backgroundColor: Extensions.colorDark, body: Login()),
+        '/registration': (BuildContext context) => const Scaffold(
+            backgroundColor: Extensions.colorDark, body: Registration()),
+      },
+    );
+  }
+}
 
 class Login extends StatefulWidget {
   const Login({super.key});
