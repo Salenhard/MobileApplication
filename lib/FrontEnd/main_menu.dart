@@ -20,6 +20,7 @@ class _MainMenuState extends State<MainMenu> {
       home: Scaffold(
         bottomNavigationBar: NavigationBar(
           backgroundColor: Extensions.colorSmooth1,
+          indicatorColor: Extensions.colorDark,
           selectedIndex: currentPageIndex,
           onDestinationSelected: (newIndex) {
             setState(() {
