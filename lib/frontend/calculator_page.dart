@@ -168,14 +168,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
 
     return Scaffold(
       backgroundColor: Extensions.colorDark,
-      appBar: AppBar(
-        backgroundColor: Extensions.colorSmooth1,
-        shadowColor: Colors.transparent,
-        title: const Text(
-          "Simple caclulator.",
-          style: Extensions.textStyleMainField1,
-        ),
-      ),
+      appBar: Extensions.getAppBarUsual1("Simple caclulator."),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
