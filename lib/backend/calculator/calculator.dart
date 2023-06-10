@@ -1,6 +1,22 @@
 class Calculator {
-  final _operands = <double>[];
-  final _operations = <Operations>[];
+  var _operands = <double>[];
+  var _operations = <Operations>[];
+
+  String get seeOperands {
+    return _operands.toString();
+  }
+
+  String get seeOperations {
+    return _operations.toString();
+  }
+
+  double get peekOperand {
+    return _operands.last;
+  }
+
+  Operations get peekOperation {
+    return _operations.last;
+  }
 
   double get popOperand {
     var res = _operands.last;
@@ -15,13 +31,14 @@ class Calculator {
   }
 
   void _calculate() {
-    if (_operations.last == Operations.openBrackets) {
-      return;
+    if (_operands.length == 1 && _operations.last == Operations.division) {
+      popOperation;
+      pushOperand(-popOperand);
+    } else {
+      double operand2 = popOperand;
+
+      pushOperand(Operation.calculate(popOperation, popOperand, operand2));
     }
-
-    double operand2 = popOperand;
-
-    pushOperand(Operation.calculate(popOperation, popOperand, operand2));
   }
 
   void pushOperand(double operand) {
@@ -48,28 +65,23 @@ class Calculator {
     _operations.add(operation);
   }
 
-  double get Answer
-  {
-    while (_operations.isNotEmpty)
-    {
+  double get answer {
+    while (_operations.isNotEmpty) {
       _calculate();
     }
 
     return _operands.last;
   }
 
-  void clear()
-  {
-    while (_operations.isNotEmpty)
-    {
+  void clear() {
+    while (_operations.isNotEmpty) {
       popOperation;
     }
 
-    while (_operands.isNotEmpty)
-    {
+    while (_operands.isNotEmpty) {
       popOperand;
     }
-  } 
+  }
 }
 
 enum Operations {
@@ -90,6 +102,15 @@ class Operation {
     Operations.multiplication: 2,
     Operations.division: 2
   };
+
+  static const operationsToString = {
+    Operations.addition: "+",
+    Operations.subtraction: "-",
+    Operations.multiplication: "*",
+    Operations.division: "/"
+  };
+
+  static const operationsInString = "+-*/";
 
   static double calculate(
       Operations operation, double operand1, double operand2) {

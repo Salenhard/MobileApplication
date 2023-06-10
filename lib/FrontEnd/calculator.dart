@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:untitled4/Other/extensions.dart';
+import 'package:untitled4/backend/calculator/calculator.dart';
 
-class Calculator extends StatefulWidget {
-  const Calculator({super.key});
+class CalculatorPage extends StatefulWidget {
+  const CalculatorPage({super.key});
 
   @override
-  State<Calculator> createState() => _CalculatorState();
+  State<CalculatorPage> createState() => _CalculatorPageState();
 }
 
 class ButtonsStyles {
@@ -25,9 +26,81 @@ class ButtonsStyles {
       overlayColor: MaterialStatePropertyAll(Extensions.colorSmooth1));
 }
 
-class _CalculatorState extends State<Calculator> {
-  final _clearExpression = "0";
+class _CalculatorPageState extends State<CalculatorPage> {
   var _expresion = "0";
+  String _numberBuffer = "0";
+
+  var _calculator = Calculator();
+
+  double get _popNumber {
+    var res = double.parse(_numberBuffer);
+    _numberBuffer = "";
+    return res;
+  }
+
+  void _pushOperation(Operations operation) {
+    setState(() {
+      if (_numberBuffer.isEmpty && _expresion.isNotEmpty) {
+        _replaceLastExpresionOperation(operation);
+      } else {
+        _calculator.pushOperand(_popNumber);
+        _calculator.pushOperation(operation);
+        _expresion += Operation.operationsToString[operation]!;
+      }
+    });
+  }
+
+  void _pushOperand(double number) {
+    var num = _clearTrailingZero(number);
+
+    setState(() {
+      if (_numberBuffer == "0") {
+        _numberBuffer = num;
+        _expresion = _expresion.substring(0, _expresion.length - 1);
+      } else {
+        _numberBuffer += num;
+      }
+
+      _expresion += num;
+    });
+  }
+
+  String _clearTrailingZero(double number) {
+    return number.toString().replaceAll(RegExp(r'([.]*0)(?!.*\d)'), '');
+  }
+
+  void _pushDot() {
+    if (!_numberBuffer.contains(".")) {
+      _numberBuffer += ".";
+      _expresion += ".";
+    }
+  }
+
+  void _replaceLastExpresionOperation(Operations newOperation) {
+    setState(() {
+      _expresion = _expresion.substring(0, _expresion.length - 1);
+      _expresion += Operation.operationsToString[newOperation]!;
+      _calculator.popOperation;
+      _calculator.pushOperation(newOperation);
+    });
+  }
+
+  void _backslash() {
+    setState(() {
+      var len = _expresion.length;
+      var lastSymbol = _expresion[len - 1];
+
+      if (len <= 1) {
+        _expresion = _numberBuffer = "0";
+        return;
+      }
+      _expresion = _expresion.substring(0, len - 1);
+
+      if (Operation.operationsInString.contains(lastSymbol)) {
+        _numberBuffer = _clearTrailingZero(_calculator.peekOperand);
+      }
+    });
+  }
 
   Widget _buildCell({
     String? text,
@@ -71,6 +144,28 @@ class _CalculatorState extends State<Calculator> {
 
   @override
   Widget build(BuildContext context) {
+    void getAnswer() {
+      // TODO: Try to fix observer effect
+
+      setState(() {
+        try {
+          if (_numberBuffer.isNotEmpty) {
+            _calculator.pushOperand(_popNumber);
+          }
+
+          var answer = _clearTrailingZero(_calculator.answer);
+
+          _expresion = _numberBuffer = answer;
+        } catch (e) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(Extensions.getSnackBar("Error: $e"));
+
+          _calculator.clear();
+          _expresion = _numberBuffer = "0";
+        }
+      });
+    }
+
     return Scaffold(
       backgroundColor: Extensions.colorDark,
       appBar: AppBar(
@@ -111,7 +206,8 @@ class _CalculatorState extends State<Calculator> {
                           style: ButtonsStyles.control,
                           onPressed: () {
                             setState(() {
-                              _expresion = _clearExpression;
+                              _calculator.clear();
+                              _expresion = _numberBuffer = "0";
                             });
                           },
                           child: _buildCell(
@@ -121,15 +217,7 @@ class _CalculatorState extends State<Calculator> {
                     child: OutlinedButton(
                         style: ButtonsStyles.operation,
                         onPressed: () {
-                          setState(() {
-                            var len = _expresion.length;
-
-                            if (len == 1) {
-                              _expresion = _clearExpression;
-                            } else {
-                              _expresion = _expresion.substring(0, len - 1);
-                            }
-                          });
+                          _backslash();
                         },
                         child: _buildCell(icon: Icons.backspace)),
                   ),
@@ -137,10 +225,7 @@ class _CalculatorState extends State<Calculator> {
                     child: OutlinedButton(
                         style: ButtonsStyles.operation,
                         onPressed: () {
-                          setState(() {
-                            _expresion += "/";
-                          });
-                          // TODO: add operand/operation
+                          _pushOperation(Operations.division);
                         },
                         child: _buildCell(text: "/", textScaleFactor: 3)),
                   ),
@@ -148,10 +233,7 @@ class _CalculatorState extends State<Calculator> {
                       child: OutlinedButton(
                           style: ButtonsStyles.operation,
                           onPressed: () {
-                            setState(() {
-                              _expresion += "*";
-                            });
-                            // TODO: add operand/operation
+                            _pushOperation(Operations.multiplication);
                           },
                           child: _buildCell(icon: Icons.clear))),
                 ],
@@ -165,10 +247,7 @@ class _CalculatorState extends State<Calculator> {
                     child: OutlinedButton(
                         style: ButtonsStyles.number,
                         onPressed: () {
-                          setState(() {
-                            _expresion += "7";
-                          });
-                          // TODO: add operand/operation
+                          _pushOperand(7);
                         },
                         child: _buildCell(text: "7", textScaleFactor: 4)),
                   ),
@@ -176,10 +255,7 @@ class _CalculatorState extends State<Calculator> {
                     child: OutlinedButton(
                         style: ButtonsStyles.number,
                         onPressed: () {
-                          setState(() {
-                            _expresion += "8";
-                          });
-                          // TODO: add operand/operation
+                          _pushOperand(8);
                         },
                         child: _buildCell(text: "8", textScaleFactor: 4)),
                   ),
@@ -187,10 +263,7 @@ class _CalculatorState extends State<Calculator> {
                     child: OutlinedButton(
                         style: ButtonsStyles.number,
                         onPressed: () {
-                          setState(() {
-                            _expresion += "9";
-                          });
-                          // TODO: add operand/operation
+                          _pushOperand(9);
                         },
                         child: _buildCell(text: "9", textScaleFactor: 4)),
                   ),
@@ -198,10 +271,7 @@ class _CalculatorState extends State<Calculator> {
                     child: OutlinedButton(
                         style: ButtonsStyles.operation,
                         onPressed: () {
-                          setState(() {
-                            _expresion += "-";
-                          });
-                          // TODO: add operand/operation
+                          _pushOperation(Operations.subtraction);
                         },
                         child: _buildCell(
                             text: "-",
@@ -218,10 +288,7 @@ class _CalculatorState extends State<Calculator> {
                     child: OutlinedButton(
                         style: ButtonsStyles.number,
                         onPressed: () {
-                          setState(() {
-                            _expresion += "4";
-                          });
-                          // TODO: add operand/operation
+                          _pushOperand(4);
                         },
                         child: _buildCell(text: "4", textScaleFactor: 4)),
                   ),
@@ -229,10 +296,7 @@ class _CalculatorState extends State<Calculator> {
                     child: OutlinedButton(
                         style: ButtonsStyles.number,
                         onPressed: () {
-                          setState(() {
-                            _expresion += "5";
-                          });
-                          // TODO: add operand/operation
+                          _pushOperand(5);
                         },
                         child: _buildCell(text: "5", textScaleFactor: 4)),
                   ),
@@ -240,10 +304,7 @@ class _CalculatorState extends State<Calculator> {
                     child: OutlinedButton(
                         style: ButtonsStyles.number,
                         onPressed: () {
-                          setState(() {
-                            _expresion += "6";
-                          });
-                          // TODO: add operand/operation
+                          _pushOperand(6);
                         },
                         child: _buildCell(text: "6", textScaleFactor: 4)),
                   ),
@@ -251,10 +312,7 @@ class _CalculatorState extends State<Calculator> {
                     child: OutlinedButton(
                         style: ButtonsStyles.operation,
                         onPressed: () {
-                          setState(() {
-                            _expresion += "+";
-                          });
-                          // TODO: add operand/operation
+                          _pushOperation(Operations.addition);
                         },
                         child: _buildCell(text: "+")),
                   ),
@@ -277,7 +335,7 @@ class _CalculatorState extends State<Calculator> {
                             child: OutlinedButton(
                                 style: ButtonsStyles.number,
                                 onPressed: () {
-                                  // TODO: add operand/operation
+                                  _pushOperand(1);
                                 },
                                 child:
                                     _buildCell(text: "1", textScaleFactor: 4)),
@@ -286,7 +344,7 @@ class _CalculatorState extends State<Calculator> {
                             child: OutlinedButton(
                                 style: ButtonsStyles.number,
                                 onPressed: () {
-                                  // TODO: add operand/operation
+                                  _pushOperand(2);
                                 },
                                 child:
                                     _buildCell(text: "2", textScaleFactor: 4)),
@@ -301,7 +359,7 @@ class _CalculatorState extends State<Calculator> {
                         child: OutlinedButton(
                             style: ButtonsStyles.number,
                             onPressed: () {
-                              // TODO: add operand/operation
+                              _pushOperand(0);
                             },
                             child: _buildCell(text: "0", textScaleFactor: 4)),
                       ),
@@ -320,10 +378,7 @@ class _CalculatorState extends State<Calculator> {
                             child: OutlinedButton(
                                 style: ButtonsStyles.number,
                                 onPressed: () {
-                                  setState(() {
-                                    _expresion += "3";
-                                  });
-                                  // TODO: add operand/operation
+                                  _pushOperand(3);
                                 },
                                 child:
                                     _buildCell(text: "3", textScaleFactor: 4)),
@@ -332,10 +387,7 @@ class _CalculatorState extends State<Calculator> {
                             child: OutlinedButton(
                                 style: ButtonsStyles.number,
                                 onPressed: () {
-                                  setState(() {
-                                    _expresion += ".";
-                                  });
-                                  // TODO: add operand/operation
+                                  _pushDot();
                                 },
                                 child: _buildCell(
                                     text: ".",
@@ -351,7 +403,7 @@ class _CalculatorState extends State<Calculator> {
                         child: OutlinedButton(
                             style: ButtonsStyles.control,
                             onPressed: () {
-                              // TODO: add operand/operation
+                              getAnswer();
                             },
                             child: _buildCell(text: "=")),
                       ),
@@ -361,110 +413,8 @@ class _CalculatorState extends State<Calculator> {
               ),
             ],
           ),
-
-          //       OutlinedButton(
-          //           style: Extensions.buildSimpleButtonElevatedStyle(
-          //               overlayColor: Extensions.colorSmooth1),
-          //           onPressed: () {
-          //             // TODO: add operand/operation
-          //           },
-          //           child: const FittedBox(
-          //             child: Text(
-          //               "8",
-          //               style: Extensions.textStyleUsual1,
-          //               textScaleFactor: 5,
-          //             ),
-          //           )),
-          //       OutlinedButton(
-          //           style: Extensions.buildSimpleButtonElevatedStyle(
-          //               overlayColor: Extensions.colorSmooth1),
-          //           onPressed: () {
-          //             // TODO: add operand/operation
-          //           },
-          //           child: const FittedBox(
-          //             child: Text(
-          //               "9",
-          //               style: Extensions.textStyleUsual1,
-          //               textScaleFactor: 5,
-          //             ),
-          //           )),
-          //       OutlinedButton(
-          //           style: Extensions.buttonElevatedStyleUsual1,
-          //           onPressed: () {
-          //             // TODO: add operand/operation
-          //           },
-          //           child: const FittedBox(
-          //             child: Text(
-          //               "-",
-          //               style: Extensions.textStyleUsual1,
-          //               textScaleFactor: 5,
-          //             ),
-          //           )),
-          //     ]),
-          //     TableRow(children: [
-          //       OutlinedButton(
-          //           style: Extensions.buildSimpleButtonElevatedStyle(
-          //               overlayColor: Extensions.colorSmooth1),
-          //           onPressed: () {
-          //             // TODO: add operand/operation
-          //           },
-          //           child: const FittedBox(
-          //             child: Text(
-          //               "4",
-          //               style: Extensions.textStyleUsual1,
-          //               textScaleFactor: 5,
-          //             ),
-          //           )),
-          //       OutlinedButton(
-          //           style: Extensions.buildSimpleButtonElevatedStyle(
-          //               overlayColor: Extensions.colorSmooth1),
-          //           onPressed: () {
-          //             // TODO: add operand/operation
-          //           },
-          //           child: const FittedBox(
-          //             child: Text(
-          //               "5",
-          //               style: Extensions.textStyleUsual1,
-          //               textScaleFactor: 5,
-          //             ),
-          //           )),
-          //       OutlinedButton(
-          //           style: Extensions.buildSimpleButtonElevatedStyle(
-          //               overlayColor: Extensions.colorSmooth1),
-          //           onPressed: () {
-          //             // TODO: add operand/operation
-          //           },
-          //           child: const FittedBox(
-          //             child: Text(
-          //               "6",
-          //               style: Extensions.textStyleUsual1,
-          //               textScaleFactor: 5,
-          //             ),
-          //           )),
-          //       OutlinedButton(
-          //           style: Extensions.buttonElevatedStyleUsual1,
-          //           onPressed: () {
-          //             // TODO: add operand/operation
-          //           },
-          //           child: const FittedBox(
-          //             child: Text(
-          //               "+",
-          //               style: Extensions.textStyleUsual1,
-          //               textScaleFactor: 5,
-          //             ),
-          //           )),
-          //     ]),
-          //   ],
-          // ),
         ],
       ),
-      // Wrap(
-      //   direction: Axis.vertical,
-      //   alignment: WrapAlignment.start,
-      //   children: [
-
-      //   ],
-      // ),
     );
   }
 }
