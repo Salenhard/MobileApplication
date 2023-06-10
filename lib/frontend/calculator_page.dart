@@ -30,7 +30,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
   var _expresion = "0";
   String _numberBuffer = "0";
 
-  var _calculator = Calculator();
+  final _calculator = Calculator();
 
   double get _popNumber {
     var res = double.parse(_numberBuffer);

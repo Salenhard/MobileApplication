@@ -1,6 +1,6 @@
 class Calculator {
-  var _operands = <double>[];
-  var _operations = <Operations>[];
+  final _operands = <double>[];
+  final _operations = <Operations>[];
 
   String get seeOperands {
     return _operands.toString();

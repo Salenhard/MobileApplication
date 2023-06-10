@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:untitled4/BackEnd/database/data_base.dart';
 import 'package:untitled4/FrontEnd/main_menu.dart';
-import 'package:untitled4/FrontEnd/registration.dart';
+import 'package:untitled4/FrontEnd/registration_page.dart';
 import '/Other/extensions.dart';
 
 class LoginMenu extends StatelessWidget {

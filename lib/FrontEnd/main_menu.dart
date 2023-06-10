@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:untitled4/FrontEnd/calculatorPage.dart';
+import 'package:untitled4/FrontEnd/calculator_page.dart';
 import '../BackEnd/database/data_base.dart';
 import '../Other/extensions.dart';
 
@@ -50,19 +50,13 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Form(
         child: Center(
-      child: Wrap(
-        crossAxisAlignment: WrapCrossAlignment.start,
-        children: [
-          // Title
-
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 60, horizontal: 10),
-            alignment: Alignment.centerLeft,
+      child: Container(
+          margin: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
+          alignment: Alignment.centerLeft,
+          child: FittedBox(
             child: Text("Hi, ${ClientsDataBase.user!.name}.",
                 style: Extensions.textStyleMainField1, textScaleFactor: 4),
-          ),
-        ],
-      ),
+          )),
     ));
   }
 }
