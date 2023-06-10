@@ -19,6 +19,16 @@ class Extensions {
       side:
           MaterialStatePropertyAll(BorderSide(color: Extensions.colorSmooth1)));
 
+  static ButtonStyle buildSimpleButtonElevatedStyle(
+      {Color backgroundColor = Colors.transparent,
+      Color overlayColor = Colors.transparent,
+      OutlinedBorder? shape}) {
+    return ButtonStyle(
+        backgroundColor: MaterialStatePropertyAll(backgroundColor),
+        overlayColor: MaterialStatePropertyAll(overlayColor),
+        shape: MaterialStatePropertyAll(shape));
+  }
+
   static const TextStyle textStyleMainField1 =
       TextStyle(color: colorBright, fontWeight: FontWeight.bold);
 
@@ -27,6 +37,11 @@ class Extensions {
 
   static const TextStyle textStyleUsual1 = TextStyle(color: colorBright);
   static const TextStyle textStyleUsual2 = TextStyle(color: colorSmooth2);
+
+  static BoxDecoration containerBoxDecorationUsual1 = BoxDecoration(
+    shape: BoxShape.rectangle,
+    border: Border.all(color: colorBright, width: 1),
+  );
 
   static InputDecoration getTextFormFieldDecoration1(String inputFieldText) {
     return InputDecoration(
@@ -83,16 +98,17 @@ class Extensions {
     };
   }
 
-  static SnackBar getSnackBar(String text)
-  {
-    return SnackBar(content: Text(text, style: textStyleUsual1,),
-    backgroundColor: colorDark);
+  static SnackBar getSnackBar(String text) {
+    return SnackBar(
+        content: Text(
+          text,
+          style: textStyleUsual1,
+        ),
+        backgroundColor: colorDark);
   }
 
-  static Column getFullInputFieldAsColumn(
-      String inputFieldText,
-      String? Function(String?) validator,
-      TextEditingController textController,
+  static Column getFullInputFieldAsColumn(String inputFieldText,
+      String? Function(String?) validator, TextEditingController textController,
       {double marginHorizontal = 35,
       double distanceFloating = 5,
       bool isPassword = false}) {
