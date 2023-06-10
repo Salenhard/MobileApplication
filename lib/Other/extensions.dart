@@ -35,6 +35,17 @@ class Extensions {
   static const TextStyle textStyleMainField2 =
       TextStyle(color: colorDark, fontWeight: FontWeight.bold);
 
+  static AppBar getAppBarUsual1(String title) {
+    return AppBar(
+      backgroundColor: Extensions.colorSmooth1,
+      shadowColor: Colors.transparent,
+      title: Text(
+        title,
+        style: Extensions.textStyleMainField1,
+      ),
+    );
+  }
+
   static const TextStyle textStyleUsual1 = TextStyle(color: colorBright);
   static const TextStyle textStyleUsual2 = TextStyle(color: colorSmooth2);
 
