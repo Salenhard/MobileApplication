@@ -37,14 +37,14 @@ class _MainMenuState extends State<MainMenu> {
           ],
         ),
         backgroundColor: Extensions.colorDark,
-        body: const [MainForm(), Calculator()][currentPageIndex],
+        body: const [MainPage(), CalculatorPage()][currentPageIndex],
       ),
     );
   }
 }
 
-class MainForm extends StatelessWidget {
-  const MainForm({super.key});
+class MainPage extends StatelessWidget {
+  const MainPage({super.key});
 
   @override
   Widget build(BuildContext context) {
