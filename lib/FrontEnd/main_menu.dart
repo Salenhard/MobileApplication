@@ -14,6 +14,13 @@ class MainMenu extends StatefulWidget {
 class _MainMenuState extends State<MainMenu> {
   int currentPageIndex = 0;
 
+  NavigationDestination _getDestination(String label, IconData icon) {
+    return NavigationDestination(
+      label: label,
+      icon: Icon(icon, color: Extensions.colorBright),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,16 +35,10 @@ class _MainMenuState extends State<MainMenu> {
               currentPageIndex = newIndex;
             });
           },
-          destinations: const [
-            NavigationDestination(
-                icon: Icon(Icons.home, color: Extensions.colorSmooth2),
-                label: "Home"),
-            NavigationDestination(
-                icon: Icon(Icons.calculate, color: Extensions.colorSmooth2),
-                label: "Calculator"),
-            NavigationDestination(
-                icon: Icon(Icons.wb_cloudy, color: Extensions.colorSmooth2),
-                label: "Weather")
+          destinations: [
+            _getDestination("Home", Icons.home),
+            _getDestination("Calculator", Icons.calculate),
+            _getDestination("Weather", Icons.wb_cloudy),
           ],
         ),
         backgroundColor: Extensions.colorDark,
