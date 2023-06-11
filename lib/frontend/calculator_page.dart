@@ -94,10 +94,20 @@ class _CalculatorPageState extends State<CalculatorPage> {
         _expresion = _numberBuffer = "0";
         return;
       }
+
       _expresion = _expresion.substring(0, len - 1);
 
       if (Operation.operationsInString.contains(lastSymbol)) {
-        _numberBuffer = _clearTrailingZero(_calculator.peekOperand);
+        _calculator.popOperation;
+        _numberBuffer = _clearTrailingZero(_calculator.popOperand);
+      } else {
+        var numLen = _numberBuffer.length;
+
+        if (numLen <= 1) {
+          _numberBuffer = "0";
+        } else {
+          _numberBuffer = _numberBuffer.substring(0, _numberBuffer.length - 1);
+        }
       }
     });
   }
@@ -145,8 +155,6 @@ class _CalculatorPageState extends State<CalculatorPage> {
   @override
   Widget build(BuildContext context) {
     void getAnswer() {
-      // TODO: Try to fix observer effect
-
       setState(() {
         try {
           if (_numberBuffer.isNotEmpty) {
