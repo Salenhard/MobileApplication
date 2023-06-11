@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:untitled4/FrontEnd/calculator_page.dart';
-import '../BackEnd/database/data_base.dart';
-import '../Other/extensions.dart';
+import 'package:untitled4/frontend/weather_page.dart';
+import 'package:untitled4/BackEnd/database/data_base.dart';
+import 'package:untitled4/Other/extensions.dart';
 
 class MainMenu extends StatefulWidget {
   const MainMenu({super.key});
@@ -33,11 +34,18 @@ class _MainMenuState extends State<MainMenu> {
                 label: "Home"),
             NavigationDestination(
                 icon: Icon(Icons.calculate, color: Extensions.colorSmooth2),
-                label: "Calculator")
+                label: "Calculator"),
+            NavigationDestination(
+                icon: Icon(Icons.wb_cloudy, color: Extensions.colorSmooth2),
+                label: "Weather")
           ],
         ),
         backgroundColor: Extensions.colorDark,
-        body: const [MainPage(), CalculatorPage()][currentPageIndex],
+        body: const [
+          MainPage(),
+          CalculatorPage(),
+          WeatherPage()
+        ][currentPageIndex],
       ),
     );
   }
