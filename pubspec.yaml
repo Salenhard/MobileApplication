@@ -33,7 +33,7 @@ dependencies:
   sqflite:
   path:
   math_expressions:
-  http:
+  http: ^1.0.0
   bloc:
   flutter_bloc:
   equatable:
