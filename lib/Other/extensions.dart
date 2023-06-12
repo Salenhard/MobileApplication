@@ -5,12 +5,12 @@ class Extensions {
   static const Color colorDark = Color.fromARGB(255, 27, 36, 48);
   static const Color colorSmooth1 = Color.fromARGB(255, 81, 85, 126);
   static const Color colorSmooth2 = Color.fromARGB(255, 129, 103, 151);
-  static const Color colorSmooth3 = Color.fromARGB(255, 105, 105, 105);
   static const Color colorBright = Color.fromARGB(255, 214, 213, 168);
 
   static const ButtonStyle buttonElevatedStyleUsual1 = ButtonStyle(
-      backgroundColor: MaterialStatePropertyAll(Extensions.colorSmooth1),
-      overlayColor: MaterialStatePropertyAll(Extensions.colorSmooth2));
+    backgroundColor: MaterialStatePropertyAll(Extensions.colorSmooth1),
+    overlayColor: MaterialStatePropertyAll(Extensions.colorSmooth2),
+  );
 
   static const ButtonStyle buttonElevatedStyleUsual2 = ButtonStyle(
       backgroundColor: MaterialStatePropertyAll(Colors.transparent),
@@ -18,6 +18,16 @@ class Extensions {
       overlayColor: MaterialStatePropertyAll(Extensions.colorSmooth1),
       side:
           MaterialStatePropertyAll(BorderSide(color: Extensions.colorSmooth1)));
+
+  static RegExp passwordRegExp =
+      RegExp(r'^(?=.*[^ ])(?=.*?[A-ZА-Я])(?=.*?[a-zа-я])(?=.*?[0-9]).{8,}$');
+
+  static RegExp mailRegExp = RegExp(r'(.+)+(@)+(.{1})+(\.)+.+');
+
+  static RegExp emptyRegExp = RegExp('r.+');
+
+  static const TextStyle textStyleHintUsual1 =
+      TextStyle(color: colorSmooth1, fontSize: 12);
 
   static ButtonStyle buildSimpleButtonElevatedStyle(
       {Color backgroundColor = Colors.transparent,
@@ -122,7 +132,9 @@ class Extensions {
       String? Function(String?) validator, TextEditingController textController,
       {double marginHorizontal = 35,
       double distanceFloating = 5,
-      bool isPassword = false}) {
+      bool isPassword = false,
+      String? hintText,
+      TextStyle? hintTextStyle}) {
     return Column(
       children: [
         Container(
@@ -143,7 +155,10 @@ class Extensions {
               validator,
               textController,
               InputDecoration(
-                  enabledBorder: inputFieldBorder1, border: inputFieldBorder1),
+                  hintText: hintText,
+                  hintStyle: hintTextStyle,
+                  enabledBorder: inputFieldBorder1,
+                  border: inputFieldBorder1),
               isPassword: isPassword),
         ),
       ],
