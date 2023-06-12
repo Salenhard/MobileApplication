@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import '../BackEnd/Weather/call_to_api.dart';
 import '../BackEnd/Weather/constants.dart';
 import '../BackEnd/Weather/weather_model.dart';
+import 'application.dart';
 
 class WeatherPage extends StatefulWidget {
   const WeatherPage({Key? key}) : super(key: key);
@@ -73,6 +74,7 @@ class _WeatherPageState extends State<WeatherPage> {
                 child: SafeArea(
                   child: Column(
                     children: [
+                      Menu(),
                       AnimSearchBar(
                         rtl: true,
                         width: 400,

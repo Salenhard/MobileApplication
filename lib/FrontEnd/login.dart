@@ -88,7 +88,7 @@ class LoginState extends State<Login> {
                       for (int i = 0; i < list.length; i++) {
                         if (mail == list[i].mail &&
                             password == list[i].password) {
-                          Navigator.pushNamed(context, '/profile');
+                          Navigator.pushNamed(context, '/weather');
                         }
                       }
                     }
