@@ -56,19 +56,17 @@ class RegistrationState extends State<Registration> {
                   Extensions.getFullInputFieldAsColumn(
                       "Name",
                       Extensions.getTextFormFieldValidator(
-                          "name", RegExp(r'.+')),
+                          "name", Extensions.emptyRegExp),
                       _nameTEC),
                   Extensions.getFullInputFieldAsColumn(
                       "Email",
                       Extensions.getTextFormFieldValidator(
-                          "email", RegExp(r'(.+)+(@)+(.{1})+(\.)+.+')),
+                          "email", Extensions.mailRegExp),
                       _mailTEC),
                   Extensions.getFullInputFieldAsColumn(
                       "Password",
                       Extensions.getTextFormFieldValidator(
-                          "password",
-                          RegExp(
-                              r'^(?=.*[^ ])(?=.*?[A-ZА-Я])(?=.*?[a-zа-я])(?=.*?[0-9]).{8,}$')),
+                          "password", Extensions.passwordRegExp),
                       _password1TEC,
                       isPassword: true),
                   Extensions.getFullInputFieldAsColumn("Repeat password",
