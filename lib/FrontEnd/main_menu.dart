@@ -3,6 +3,7 @@ import 'package:untitled4/FrontEnd/calculator_page.dart';
 import 'package:untitled4/frontend/weather_page.dart';
 import 'package:untitled4/BackEnd/database/data_base.dart';
 import 'package:untitled4/Other/extensions.dart';
+import 'package:untitled4/frontend/profile_page.dart';
 
 class MainMenu extends StatefulWidget {
   const MainMenu({super.key});
@@ -39,13 +40,17 @@ class _MainMenuState extends State<MainMenu> {
             _getDestination("Home", Icons.home),
             _getDestination("Calculator", Icons.calculate),
             _getDestination("Weather", Icons.wb_cloudy),
+            // EoT here
+            _getDestination("Profile", Icons.person),
           ],
         ),
         backgroundColor: Extensions.colorDark,
         body: const [
           MainPage(),
           CalculatorPage(),
-          WeatherPage()
+          WeatherPage(),
+          // EoT here
+          ProfilePage(),
         ][currentPageIndex],
       ),
     );
