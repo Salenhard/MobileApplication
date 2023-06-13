@@ -24,7 +24,7 @@ class Extensions {
 
   static RegExp mailRegExp = RegExp(r'(.+)+(@)+(.{1})+(\.)+.+');
 
-  static RegExp emptyRegExp = RegExp('r.+');
+  static RegExp emptyRegExp = RegExp(r'(.)+');
 
   static const TextStyle textStyleHintUsual1 =
       TextStyle(color: colorSmooth1, fontSize: 12);
